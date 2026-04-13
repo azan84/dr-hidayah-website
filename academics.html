@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academics — Dr. Nur Hidayah Binti Zainan</title>
+  <meta name="description" content="Publications and research grants by Dr. Nur Hidayah Binti Zainan, UTM." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Dr. <span>Hidayah</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="academics.html">Academics</a></li>
+        <li><a href="students.html">Students</a></li>
+        <li><a href="personal.html">Personal</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== BANNER ===== -->
+  <div class="page-banner">
+    <div class="container">
+      <h1>Academics</h1>
+      <p class="banner-desc">Publications, research grants, and scholarly contributions</p>
+      <div class="underline-accent"></div>
+    </div>
+  </div>
+
+  <!-- ===== PUBLICATIONS ===== -->
+  <section class="publications" id="publications">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-subtitle">Academic Output</p>
+        <h2 class="section-title">Publications</h2>
+        <div class="underline-accent"></div>
+      </div>
+      <div class="pub-controls reveal">
+        <input type="text" class="pub-search" id="pubSearch" placeholder="Search by title, journal, or keyword..." />
+        <div class="pub-filter-group" id="pubFilters">
+          <button class="pub-filter-btn active" data-year="all">All</button>
+          <button class="pub-filter-btn" data-year="2025">2025</button>
+          <button class="pub-filter-btn" data-year="2024">2024</button>
+          <button class="pub-filter-btn" data-year="2023">2023</button>
+          <button class="pub-filter-btn" data-year="2022">2022</button>
+          <button class="pub-filter-btn" data-year="2020">2020</button>
+          <button class="pub-filter-btn" data-year="2018">2018</button>
+          <button class="pub-filter-btn" data-year="older">Older</button>
+        </div>
+      </div>
+      <div class="pub-list reveal" id="pubList"></div>
+      <p class="pub-count-info" id="pubCount"></p>
+    </div>
+  </section>
+
+  <!-- ===== GRANTS ===== -->
+  <section class="grants" id="grants">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-subtitle">Research Funding</p>
+        <h2 class="section-title">Research Grants</h2>
+        <div class="underline-accent"></div>
+      </div>
+      <div class="grants-grid reveal">
+        <div class="grant-card clay">
+          <div class="grant-tags">
+            <span class="grant-tag utmr">UTM RUG</span>
+            <span class="grant-tag utmr">Dana Penyelidik Berpotensi</span>
+          </div>
+          <h3>Comparative Study Between ANN, Ridge Regression and Random Forest in Forecasting CO&#8322; Fixation Rate by Algae</h3>
+          <p class="grant-year">2024</p>
+        </div>
+        <div class="grant-card clay">
+          <div class="grant-tags">
+            <span class="grant-tag govt">Government Agency</span>
+            <span class="grant-tag govt">Jabatan Tanah Sarawak</span>
+          </div>
+          <h3>SWK 1.1: Recovery of Interest Compound from Sterilization Condensate using Synergist Lipids Based Extractive and Supercritical Fluid Extraction</h3>
+          <p class="grant-year">2024</p>
+        </div>
+        <div class="grant-card clay">
+          <div class="grant-tags"><span class="grant-tag frgs">MOHE FRGS</span></div>
+          <h3>Kinetic and Thermodynamics Studies of Protein Extraction from Trichanthera Gigantea using Subcritical Water Technology for Chicken Feed Formulation</h3>
+          <p class="grant-year">2023</p>
+        </div>
+        <div class="grant-card clay">
+          <div class="grant-tags"><span class="grant-tag frgs">MOHE FRGS</span></div>
+          <h3>Kinetics of Collagen Hydrolysis of Barramundi Skin using Subcritical Water and Structural-Biofunctional Properties</h3>
+          <p class="grant-year">2023</p>
+        </div>
+        <div class="grant-card clay">
+          <div class="grant-tags">
+            <span class="grant-tag utmr">UTM RUG</span>
+            <span class="grant-tag utmr">Encouragement Research</span>
+          </div>
+          <h3>Fucoidan Extraction from Brown Algae using Microwave Assisted-Deep Eutectic Solvent</h3>
+          <p class="grant-year">2022</p>
+        </div>
+        <div class="grant-card clay">
+          <div class="grant-tags"><span class="grant-tag frgs">MOHE FRGS</span></div>
+          <h3>Reaction-Degradation Mechanisms in Ozonolysis-Enzymatic Saccharification Treatment of EFB for Enhanced Bioethanol Production</h3>
+          <p class="grant-year">2022</p>
+        </div>
+        <div class="grant-card clay">
+          <div class="grant-tags">
+            <span class="grant-tag utmr">UTM RUG</span>
+            <span class="grant-tag utmr">Fundamental Research</span>
+          </div>
+          <h3>Enzymatic Hydrolysis of Collagen from Barramundi Skin Aided with Ultrasound-Assisted Pre-Treatment</h3>
+          <p class="grant-year">2022</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 Dr. Nur Hidayah Binti Zainan. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // ── Publication Data ──
+    const publications = [
+      { title: "Quality of bio-oil from catalytic pyrolysis of microalgae Chlorella vulgaris", journal: "Fuel 223, 12\u201319", year: 2018, citations: 215 },
+      { title: "Catalytic pyrolysis of microalgae Tetraselmis suecica and characterization study using in situ Synchrotron-based Infrared Microscopy", journal: "Fuel 161, 345\u2013354", year: 2015, citations: 73 },
+      { title: "Biochemical analysis and potential applications of aqueous and solid products generated from subcritical water extraction of microalgae Chlorella pyrenoidosa biomass", journal: "Journal of Applied Phycology 32(1), 111\u2013126", year: 2020, citations: 29 },
+      { title: "Improving collagen processing towards a greener approach: current progress", journal: "Journal of Chemical Technology & Biotechnology 98(5), 1063\u20131082", year: 2023, citations: 21 },
+      { title: "Kinetic and thermodynamic characterization of amino acids generation via subcritical water reaction of microalgae Nannochloropsis sp. biomass", journal: "Biomass Conversion and Biorefinery 12(6), 2001\u20132014", year: 2022, citations: 21 },
+      { title: "Production of sugar by hydrolysis of empty fruit bunches using POME-based cellulases: Optimization study", journal: "African Journal of Biotechnology 10(81), 18722\u201318727", year: 2011, citations: 16 },
+      { title: "Trends in bio-based cosmetic ingredients", journal: "Biomass-based Cosmetics: Research Trends and Future Outlook, 27\u201347", year: 2024, citations: 10 },
+      { title: "Anti-diabetic benefits from Morus alba fruits", journal: "Journal of Human Centered Technology 3(2), 61\u201372", year: 2024, citations: 4 },
+      { title: "Preliminary study on lipid extraction from Nannochloropsis salina using supercritical carbon dioxide", journal: "Malaysian Journal of Fundamental and Applied Sciences 14, 374\u2013377", year: 2018, citations: 2 },
+      { title: "Optimization of Temperature, Cellulase Concentration and pH value of Enzymatic Saccharification for Producing Sugar from Ozone Pre-treated Oil Palm EFB", journal: "Journal of Bioprocessing and Biomass Technology 4(1), 33\u201337", year: 2025, citations: 1 },
+      { title: "Carbohydrate Extraction from Brown Algae using UAE", journal: "Journal of Bioprocessing and Biomass Technology 3(2), 129\u2013133", year: 2024, citations: 1 },
+      { title: "Antimicrobial properties of deep-sea water and its potential as thickener in the cosmeceutical industry", journal: "AIP Conference Proceedings 3041(1), 030004", year: 2024, citations: 1 },
+      { title: "Parametric optimization on acid hydrolysis of ozone pre-treated oil palm EFB", journal: "AIP Conference Proceedings 3225(1), 020006", year: 2025, citations: 0 },
+      { title: "Optimization of Fucoidan Extraction from Brown Algae Using Microwave Assisted-Deep Eutectic Solvent", journal: "IFMBE Proceedings / Emerging Science and Technology", year: 2025, citations: 0 },
+      { title: "Biodegradation of Industrial Pollutants Using Fungi", journal: "Book Chapter in Bioprospecting of Multi-tasking Fungi", year: 2024, citations: 0 },
+      { title: "Optimization of UAE Condition for Total Phenolic Compounds from Citrus Hystrix Peel", journal: "Journal of Bioprocessing and Biomass Technology 3(1), 1\u20135", year: 2024, citations: 0 },
+      { title: "Energy-efficient network architecture for smart city development", journal: "Przegl\u0105d Elektrotechniczny 99", year: 2023, citations: 0 },
+      { title: "Breaking Boundaries Transcending Trajectories", journal: "Original Book (Editor)", year: 2022, citations: 0 },
+      { title: "Cellulosic Bioethanol Production from Empty Fruit Bunches by Locally Produced Cellulase", journal: "IIUM Thesis", year: 2012, citations: 0 },
+    ];
+
+    const pubList = document.getElementById('pubList');
+    const pubCount = document.getElementById('pubCount');
+    function renderPubs(filter, query) {
+      filter = filter || 'all';
+      query = (query || '').toLowerCase();
+      pubList.innerHTML = '';
+      let count = 0;
+      publications.forEach(pub => {
+        const yearMatch = filter === 'all' || (filter === 'older' && pub.year < 2018) || String(pub.year) === filter;
+        const textMatch = !query || pub.title.toLowerCase().includes(query) || pub.journal.toLowerCase().includes(query) || String(pub.year).includes(query);
+        if (!yearMatch || !textMatch) return;
+        count++;
+        const el = document.createElement('div');
+        el.className = 'pub-item';
+        el.innerHTML = '<p class="pub-title">' + pub.title + '</p><div class="pub-meta"><span class="pub-year">' + pub.year + '</span><span class="pub-journal">' + pub.journal + '</span>' + (pub.citations > 0 ? '<span class="pub-citations"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>' + pub.citations + ' citations</span>' : '') + '</div>';
+        pubList.appendChild(el);
+      });
+      pubCount.textContent = 'Showing ' + count + ' of ' + publications.length + ' publications';
+    }
+    renderPubs();
+
+    let currentFilter = 'all';
+    document.getElementById('pubFilters').addEventListener('click', function(e) {
+      if (!e.target.classList.contains('pub-filter-btn')) return;
+      document.querySelectorAll('.pub-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      e.target.classList.add('active');
+      currentFilter = e.target.dataset.year;
+      renderPubs(currentFilter, document.getElementById('pubSearch').value);
+    });
+    document.getElementById('pubSearch').addEventListener('input', function(e) {
+      renderPubs(currentFilter, e.target.value);
+    });
+  </script>
+</body>
+</html>
