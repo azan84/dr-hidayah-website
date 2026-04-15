@@ -23,6 +23,8 @@ if (navToggle && navLinks) {
     'index.html': 'Home',
     'academics.html': 'Academics',
     'students.html': 'Students',
+    'blog.html': 'Blog',
+    'blog-saf-microalgae.html': 'Blog',
     'personal.html': 'Personal',
   };
   const label = map[page];
