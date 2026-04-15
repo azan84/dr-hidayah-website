@@ -36,32 +36,13 @@
     </div>
   </div>
 
-  <!-- ===== BLOG LIST ===== -->
+  <!-- ===== BLOG LIST (auto-generated from blog-posts.js) ===== -->
   <section class="blog">
     <div class="container">
-      <div class="blog-grid">
-
-        <!-- Blog Post 1 -->
-        <article class="blog-card clay reveal">
-          <a href="blog-saf-microalgae.html" style="text-decoration:none; color:inherit;">
-            <div class="blog-thumb"><span>&#9992;&#65039;</span></div>
-          </a>
-          <div class="blog-body">
-            <div class="blog-meta">
-              <span class="blog-tag">Sustainability</span>
-              <span class="blog-date">November 2025 &middot; 8 min read</span>
-            </div>
-            <h2>The Green Skies Ahead: Sustainable Aviation Fuel (SAF) and Microalgae</h2>
-            <p class="blog-excerpt">
-              The aviation industry currently faces a massive challenge: how to decarbonize a sector that heavily relies on energy-dense, liquid fossil fuels. While electric batteries and hydrogen show promise for ground transport, they are currently too heavy or bulky for long-haul flights. Enter Sustainable Aviation Fuel (SAF) &mdash; and one of its most promising, futuristic feedstocks: microalgae&hellip;
-            </p>
-            <a href="blog-saf-microalgae.html" class="blog-read-more">
-              Read full article <span class="arrow">&rarr;</span>
-            </a>
-          </div>
-        </article>
-
+      <div class="blog-grid" id="blogGrid">
+        <!-- Cards injected by JavaScript -->
       </div>
+      <p id="blogEmpty" class="pub-count-info" style="display:none;">No blog posts yet. Check back soon!</p>
     </div>
   </section>
 
@@ -69,6 +50,36 @@
     <p>&copy; 2025 Dr. Nur Hidayah Binti Zainan. All rights reserved.</p>
   </footer>
 
+  <script src="blog-posts.js"></script>
+  <script>
+    (function renderBlogGrid() {
+      const grid = document.getElementById('blogGrid');
+      const empty = document.getElementById('blogEmpty');
+      if (!grid) return;
+      if (!Array.isArray(blogPosts) || blogPosts.length === 0) {
+        if (empty) empty.style.display = 'block';
+        return;
+      }
+      grid.innerHTML = blogPosts.map(p => `
+        <article class="blog-card clay reveal">
+          <a href="${p.file}" style="text-decoration:none; color:inherit;">
+            <div class="blog-thumb"><span>${p.icon}</span></div>
+          </a>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">${p.tag}</span>
+              <span class="blog-date">${p.date} &middot; ${p.readTime}</span>
+            </div>
+            <h2>${p.title}</h2>
+            <p class="blog-excerpt">${p.excerpt}</p>
+            <a href="${p.file}" class="blog-read-more">
+              Read full article <span class="arrow">&rarr;</span>
+            </a>
+          </div>
+        </article>
+      `).join('');
+    })();
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
