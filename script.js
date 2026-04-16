@@ -25,6 +25,7 @@ if (navToggle && navLinks) {
     'students.html': 'Students',
     'blog.html': 'Blog',
     'blog-saf-microalgae.html': 'Blog',
+    'blog-microalgae-vs-astrophage.html': 'Blog',
     'personal.html': 'Personal',
   };
   const label = map[page];

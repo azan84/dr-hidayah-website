@@ -19,6 +19,16 @@
 
 const blogPosts = [
   {
+    file: "blog-microalgae-vs-astrophage.html",
+    title: "Microalgae vs. Astrophage: How Science Fiction Reimagines Our Green Energy Future",
+    tag: "Sci-Fi \u00d7 Science",
+    date: "April 2026",
+    readTime: "7 min read",
+    icon: "\uD83E\uDDEC",
+    heroStyle: "background: radial-gradient(ellipse at 30% 25%, #1a1a3e 0%, transparent 55%), radial-gradient(ellipse at 70% 65%, #2d1854 0%, transparent 55%), linear-gradient(135deg, #0f0c29 0%, #1b1354 30%, #24243e 55%, #2d5e4e 80%, #5BBFB5 100%);",
+    excerpt: "If you\u2019ve watched the <em>Project Hail Mary</em> movie recently, you probably walked away with one question: \u201CCan a tiny, single-celled organism really save a planet?\u201D While Astrophage is purely science fiction, we have a real-world counterpart right here on Earth: <strong>Microalgae</strong>&hellip;"
+  },
+  {
     file: "blog-saf-microalgae.html",
     title: "The Green Skies Ahead: Sustainable Aviation Fuel (SAF) and Microalgae",
     tag: "Sustainability",

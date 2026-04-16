@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 
@@ -50,7 +50,7 @@
     <p>&copy; 2025 Dr. Nur Hidayah Binti Zainan. All rights reserved.</p>
   </footer>
 
-  <script src="blog-posts.js?v=3"></script>
+  <script src="blog-posts.js?v=4"></script>
   <script>
     (function renderBlogGrid() {
       const grid = document.getElementById('blogGrid');
@@ -63,7 +63,7 @@
       grid.innerHTML = blogPosts.map(p => `
         <article class="blog-card clay reveal">
           <a href="${p.file}" style="text-decoration:none; color:inherit;">
-            <div class="blog-thumb"><span>${p.icon}</span></div>
+            <div class="blog-thumb"${p.heroStyle ? ' style="'+p.heroStyle+'"' : ''}><span>${p.icon}</span></div>
           </a>
           <div class="blog-body">
             <div class="blog-meta">
@@ -80,6 +80,6 @@
       `).join('');
     })();
   </script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
