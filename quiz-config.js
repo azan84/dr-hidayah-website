@@ -45,12 +45,13 @@
 // =============================================================
 
 window.FIREBASE_CONFIG = {
-  apiKey:            "PASTE_YOUR_API_KEY_HERE",
-  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "000000000000",
-  appId:             "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx"
+  apiKey:            "AIzaSyCbJTrp15up62yvUU79Tqe7WXL1ZDtaJ0g",
+  authDomain:        "thermo-quiz.firebaseapp.com",
+  projectId:         "thermo-quiz",
+  storageBucket:     "thermo-quiz.firebasestorage.app",
+  messagingSenderId: "556990589781",
+  appId:             "1:556990589781:web:aecc4da595fc1b8acf9ddc",
+  measurementId:     "G-WW3D7F6K44"
 };
 
 // Firestore collection name (change if you run multiple quizzes)
