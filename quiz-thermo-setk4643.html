@@ -13,6 +13,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=4" />
+
+  <!-- Firebase SDK (compat build for simpler inline scripting) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- Quiz config (Firebase keys etc.) -->
+  <script src="quiz-config.js?v=1"></script>
+
   <style>
     /* ===== Quiz-specific styles ===== */
     :root {
@@ -526,6 +533,7 @@
     <div class="screen" id="startScreen">
       <div style="text-align:center;">
         <span class="start-badge">SETK 4643 &middot; Chapters 1 &amp; 2</span>
+        <span id="backendBadge" class="start-badge" style="margin-left:6px;background:linear-gradient(135deg,#6b7280,#9ca3af);">&#128190; Local &middot; this device only</span>
       </div>
       <h1>Thermodynamics Quiz</h1>
       <p class="sub">Introduction, Basic Concepts &amp; Energy Transfer &mdash; test your speed and knowledge!</p>
@@ -580,7 +588,7 @@
     <div class="screen hidden" id="lbScreen">
       <div style="text-align:center;"><div style="font-size:70px;line-height:1;margin-bottom:6px;">&#127942;</div></div>
       <h1>Leaderboard</h1>
-      <p class="sub">Top 10 scores saved on this device</p>
+      <p class="sub" id="lbSub">Top 10 scores saved on this device</p>
       <div class="leaderboard" style="margin-bottom:20px;">
         <div id="lbScreenList"></div>
       </div>
@@ -588,7 +596,7 @@
         <button class="btn-primary" id="lbBackBtn">&larr; Back</button>
         <button class="btn-danger" id="lbResetBtn">Reset Leaderboard</button>
       </div>
-      <p style="text-align:center;color:#6b6f73;font-size:12px;margin-top:18px;line-height:1.5;">
+      <p id="lbNote" style="text-align:center;color:#6b6f73;font-size:12px;margin-top:18px;line-height:1.5;">
         <strong>Note:</strong> scores are saved only in <em>this browser on this device</em>.
         Students playing on their own devices have their own separate leaderboards.
       </p>
@@ -869,6 +877,8 @@
   // ===== Start =====
   document.addEventListener('DOMContentLoaded', ()=>{
     $('qCount').textContent = TOTAL_QUESTIONS;
+    initFirebase();
+    updateBackendBadge();
 
     const nameInput = $('playerName');
     const startBtn = $('startBtn');
@@ -879,12 +889,7 @@
       if(e.key==='Enter' && !startBtn.disabled) startBtn.click();
     });
     startBtn.addEventListener('click', startQuiz);
-    $('resetLbBtn').addEventListener('click', ()=>{
-      if(confirm('Reset the entire leaderboard? This cannot be undone.')){
-        localStorage.removeItem('thermoQuizLB');
-        renderLeaderboard();
-      }
-    });
+    $('resetLbBtn').addEventListener('click', handleReset);
 
     // View-leaderboard button on start screen
     $('viewLbBtn').addEventListener('click', ()=>{
@@ -892,13 +897,52 @@
       show('lbScreen');
     });
     $('lbBackBtn').addEventListener('click', ()=>{ show('startScreen'); });
-    $('lbResetBtn').addEventListener('click', ()=>{
-      if(confirm('Reset the entire leaderboard? This cannot be undone.')){
-        localStorage.removeItem('thermoQuizLB');
-        renderLeaderboardInto('lbScreenList');
-      }
-    });
+    $('lbResetBtn').addEventListener('click', ()=>{ handleReset('lbScreenList'); });
   });
+
+  function handleReset(targetId){
+    if(firebaseReady){
+      alert(
+        'The shared leaderboard is stored in Firebase. For safety it cannot be cleared from the browser.\n\n' +
+        'To reset it, open Firebase Console -> Firestore Database -> collection "' +
+        (window.QUIZ_LEADERBOARD_COLLECTION || 'thermoQuizLB') +
+        '" -> delete the documents you want to remove.'
+      );
+      return;
+    }
+    if(confirm('Reset the leaderboard on this device? This cannot be undone.')){
+      localStorage.removeItem('thermoQuizLB');
+      if(targetId) renderLeaderboardInto(targetId);
+      else renderLeaderboard();
+    }
+  }
+
+  function updateBackendBadge(){
+    const badge = document.getElementById('backendBadge');
+    const note = document.getElementById('lbNote');
+    if(badge){
+      if(firebaseReady){
+        badge.innerHTML = '&#128308; LIVE &middot; shared leaderboard';
+        badge.style.background = 'linear-gradient(135deg,#26890c,#4caf50)';
+      } else {
+        badge.innerHTML = '&#128190; Local &middot; this device only';
+        badge.style.background = 'linear-gradient(135deg,#6b7280,#9ca3af)';
+      }
+    }
+    if(note){
+      if(firebaseReady){
+        note.innerHTML = '<strong>Live mode:</strong> scores are synced from every student across every device in real time.';
+      } else {
+        note.innerHTML = '<strong>Note:</strong> scores are saved only in <em>this browser on this device</em>. Students on their own devices have their own separate leaderboards.';
+      }
+    }
+    const sub = document.getElementById('lbSub');
+    if(sub){
+      sub.textContent = firebaseReady
+        ? 'Top 10 scores across all players (live)'
+        : 'Top 10 scores saved on this device';
+    }
+  }
 
   function startQuiz(){
     state.player = $('playerName').value.trim().slice(0,20);
@@ -1043,7 +1087,7 @@
     }, 3000);
   }
 
-  function endQuiz(){
+  async function endQuiz(){
     // Save to leaderboard
     const entry = {
       name: state.player,
@@ -1053,7 +1097,7 @@
       avgTime: state.totalTime / TOTAL_QUESTIONS,
       date: new Date().toISOString()
     };
-    saveLeaderboard(entry);
+    await saveLeaderboard(entry);
 
     // Populate end screen
     $('finalName').textContent = state.player;
@@ -1080,18 +1124,88 @@
 
   function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-  function saveLeaderboard(entry){
-    const lb = getLeaderboard();
+  // ===== Leaderboard storage: Firebase when configured, else localStorage =====
+  let firebaseDb = null;
+  let firebaseReady = false;
+  let remoteLB = [];            // cached remote leaderboard (top 50)
+  let lbSubscribers = [];       // render callbacks to re-run on updates
+
+  function initFirebase(){
+    if(!window.FIREBASE_ENABLED) return false;
+    try {
+      if(!firebase.apps.length){
+        firebase.initializeApp(window.FIREBASE_CONFIG);
+      }
+      firebaseDb = firebase.firestore();
+      firebaseReady = true;
+      // Real-time listener on top 50 scores
+      const col = window.QUIZ_LEADERBOARD_COLLECTION || 'thermoQuizLB';
+      firebaseDb.collection(col)
+        .orderBy('score', 'desc')
+        .limit(50)
+        .onSnapshot(snap=>{
+          remoteLB = snap.docs.map(d=>{
+            const x = d.data();
+            return {
+              id: d.id,
+              name: x.name,
+              score: x.score,
+              correct: x.correct,
+              total: x.total,
+              avgTime: x.avgTime,
+              date: x.date || (x.createdAt && x.createdAt.toDate && x.createdAt.toDate().toISOString()) || new Date().toISOString()
+            };
+          });
+          // Re-render any visible leaderboards
+          lbSubscribers.forEach(fn=>{ try{fn();}catch(e){} });
+        }, err=>{
+          console.warn('Firestore listener failed, falling back to localStorage.', err);
+          firebaseReady = false;
+        });
+      return true;
+    } catch(e){
+      console.warn('Firebase init failed, falling back to localStorage.', e);
+      firebaseReady = false;
+      return false;
+    }
+  }
+
+  async function saveLeaderboard(entry){
+    if(firebaseReady){
+      try {
+        const col = window.QUIZ_LEADERBOARD_COLLECTION || 'thermoQuizLB';
+        const docRef = await firebaseDb.collection(col).add({
+          name: entry.name,
+          score: entry.score,
+          correct: entry.correct,
+          total: entry.total,
+          avgTime: entry.avgTime,
+          date: entry.date,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        entry.id = docRef.id;
+        return;
+      } catch(e){
+        console.warn('Firestore write failed, saving locally.', e);
+      }
+    }
+    // Fallback: localStorage
+    const lb = getLocalLeaderboard();
     lb.push(entry);
     lb.sort((a,b)=>b.score - a.score);
     const top = lb.slice(0, 50);
     try { localStorage.setItem('thermoQuizLB', JSON.stringify(top)); } catch(e){}
   }
-  function getLeaderboard(){
+
+  function getLocalLeaderboard(){
     try {
       const raw = localStorage.getItem('thermoQuizLB');
       return raw ? JSON.parse(raw) : [];
     } catch(e){ return []; }
+  }
+  function getLeaderboard(){
+    if(firebaseReady) return remoteLB.slice();
+    return getLocalLeaderboard();
   }
 
   function renderLeaderboardInto(targetId){
@@ -1100,6 +1214,17 @@
   function renderLeaderboard(currentEntry, targetId){
     const list = $(targetId || 'leaderboardList');
     if(!list) return;
+    // Subscribe so it auto-refreshes when Firestore pushes updates
+    const redraw = ()=>renderLeaderboardOnce(currentEntry, targetId || 'leaderboardList');
+    if(!list._lbSubscribed){
+      list._lbSubscribed = true;
+      lbSubscribers.push(redraw);
+    }
+    redraw();
+  }
+  function renderLeaderboardOnce(currentEntry, targetId){
+    const list = $(targetId);
+    if(!list) return;
     const lb = getLeaderboard().slice(0, 10);
     if(!lb.length){
       list.innerHTML = '<div class="lb-empty">No scores yet. Be the first!</div>';
@@ -1107,7 +1232,10 @@
     }
     list.innerHTML = lb.map((e, i)=>{
       const rank = i+1;
-      const isYou = currentEntry && e.name===currentEntry.name && e.date===currentEntry.date;
+      const isYou = currentEntry && (
+        (e.id && currentEntry.id && e.id === currentEntry.id) ||
+        (e.name === currentEntry.name && e.date === currentEntry.date)
+      );
       let rowCls = '';
       if(isYou) rowCls += ' you';
       if(rank===1) rowCls += ' gold';
