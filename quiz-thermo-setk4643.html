@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thermodynamics Quiz (SETK 4643) | Dr. Nur Hidayah Zainan</title>
+  <meta name="description" content="Kahoot-style quiz on Chapters 1 and 2 of Thermodynamics (SETK 4643). Play fast, answer correctly, and compete for the top spot on the leaderboard." />
+  <meta name="keywords" content="Thermodynamics quiz, SETK 4643, Kahoot, UTM, Nur Hidayah Zainan, chapter 1 basic concepts, chapter 2 energy transfer" />
+  <meta name="author" content="Dr. Nur Hidayah Binti Zainan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hidayah.biomechemical.com/quiz-thermo-setk4643.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+  <style>
+    /* ===== Quiz-specific styles ===== */
+    :root {
+      --q-red: #e21b3c;
+      --q-blue: #1368ce;
+      --q-yellow: #d89e00;
+      --q-green: #26890c;
+      --q-purple: #6f42c1;
+    }
+    body.quiz-body {
+      background: linear-gradient(135deg,#46178f 0%,#864cbf 50%,#b06ab3 100%);
+      min-height: 100vh;
+      font-family: 'Poppins','Inter',sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .quiz-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .quiz-topbar {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .quiz-topbar a.back-link {
+      color:#fff;
+      text-decoration:none;
+      background:rgba(255,255,255,0.15);
+      padding:8px 16px;
+      border-radius:30px;
+      font-weight:600;
+      font-size:14px;
+      backdrop-filter: blur(8px);
+      transition:all .2s;
+    }
+    .quiz-topbar a.back-link:hover{background:rgba(255,255,255,0.25);transform:translateX(-3px);}
+    .quiz-logo{
+      font-weight:800;
+      font-size:18px;
+      letter-spacing:1px;
+      text-shadow:0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    /* ===== Screens ===== */
+    .screen{
+      background:#fff;
+      color:#23272a;
+      border-radius:28px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.35);
+      padding:40px;
+      animation: pop .4s cubic-bezier(.2,1.4,.5,1);
+    }
+    @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+    .screen.hidden{display:none;}
+    .screen h1{
+      font-size:clamp(28px,5vw,44px);
+      font-weight:800;
+      text-align:center;
+      margin:0 0 10px;
+      color:#46178f;
+      font-family:'Poppins',sans-serif;
+    }
+    .screen .sub{
+      text-align:center;
+      color:#6b6f73;
+      font-size:16px;
+      margin-bottom:30px;
+    }
+
+    /* ===== Start screen ===== */
+    .start-badge{
+      display:inline-block;
+      background:linear-gradient(135deg,#46178f,#864cbf);
+      color:#fff;
+      padding:6px 16px;
+      border-radius:20px;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:1px;
+      margin-bottom:10px;
+    }
+    .start-meta{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin:20px 0 28px;
+    }
+    .meta-pill{
+      background:#f5f3ff;
+      border:2px solid #ede9fe;
+      border-radius:16px;
+      padding:14px;
+      text-align:center;
+    }
+    .meta-pill .n{
+      font-size:22px;
+      font-weight:800;
+      color:#46178f;
+      line-height:1;
+    }
+    .meta-pill .l{
+      font-size:11px;
+      color:#6b6f73;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      margin-top:4px;
+    }
+    .name-input{
+      display:block;
+      width:100%;
+      padding:16px 20px;
+      font-size:18px;
+      border:3px solid #ede9fe;
+      border-radius:16px;
+      font-family:inherit;
+      font-weight:600;
+      text-align:center;
+      transition:all .2s;
+      box-sizing:border-box;
+    }
+    .name-input:focus{outline:none;border-color:#46178f;box-shadow:0 0 0 4px rgba(70,23,143,0.1);}
+    .start-btn{
+      display:block;
+      width:100%;
+      margin-top:16px;
+      padding:18px;
+      font-size:20px;
+      font-weight:800;
+      background:linear-gradient(135deg,#46178f,#864cbf);
+      color:#fff;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-family:inherit;
+      box-shadow:0 8px 20px rgba(70,23,143,0.35);
+      transition:all .2s;
+      letter-spacing:1px;
+    }
+    .start-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(70,23,143,0.45);}
+    .start-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+    .how-to{
+      margin-top:30px;
+      padding:20px;
+      background:#fafaff;
+      border-radius:16px;
+      border-left:5px solid #46178f;
+    }
+    .how-to h3{margin:0 0 10px;color:#46178f;font-size:16px;}
+    .how-to ul{margin:0;padding-left:20px;font-size:14px;color:#4a4e53;line-height:1.8;}
+
+    /* ===== Play screen ===== */
+    .play-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .q-counter{
+      background:#46178f;
+      color:#fff;
+      padding:8px 18px;
+      border-radius:20px;
+      font-weight:700;
+      font-size:14px;
+    }
+    .q-score{
+      background:#26890c;
+      color:#fff;
+      padding:8px 18px;
+      border-radius:20px;
+      font-weight:700;
+      font-size:14px;
+    }
+    .timer-ring{
+      position:relative;
+      width:80px;
+      height:80px;
+    }
+    .timer-ring svg{transform:rotate(-90deg);}
+    .timer-ring circle{fill:none;stroke-width:8;}
+    .timer-ring .bg{stroke:#ede9fe;}
+    .timer-ring .fg{
+      stroke:#46178f;
+      stroke-linecap:round;
+      stroke-dasharray:226.2;
+      stroke-dashoffset:0;
+      transition:stroke-dashoffset 1s linear, stroke .3s;
+    }
+    .timer-ring .t{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:26px;
+      color:#46178f;
+    }
+
+    .question-box{
+      background:#fafaff;
+      border-radius:20px;
+      padding:30px;
+      margin-bottom:24px;
+      text-align:center;
+      border:2px solid #ede9fe;
+    }
+    .q-chapter{
+      display:inline-block;
+      font-size:12px;
+      font-weight:700;
+      color:#864cbf;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:10px;
+    }
+    .q-text{
+      font-size:clamp(18px,2.6vw,26px);
+      font-weight:700;
+      color:#23272a;
+      line-height:1.4;
+      margin:0;
+    }
+
+    .answer-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .answer-btn{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:22px 20px;
+      font-size:17px;
+      font-weight:700;
+      color:#fff;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-family:inherit;
+      text-align:left;
+      box-shadow:0 6px 0 rgba(0,0,0,0.2);
+      transition:all .15s;
+      min-height:80px;
+    }
+    .answer-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 0 rgba(0,0,0,0.2);}
+    .answer-btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 4px 0 rgba(0,0,0,0.2);}
+    .answer-btn:disabled{cursor:not-allowed;}
+    .answer-btn.dim{opacity:.35;}
+    .answer-btn.correct{
+      background:#26890c !important;
+      animation: pulse 0.6s ease;
+      opacity:1 !important;
+    }
+    .answer-btn.wrong{
+      background:#858585 !important;
+      opacity:.55;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.05);}
+    }
+    .answer-btn .shape{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:36px;
+      height:36px;
+      font-size:22px;
+      font-weight:900;
+      flex-shrink:0;
+    }
+    .btn-red{background:var(--q-red);}
+    .btn-blue{background:var(--q-blue);}
+    .btn-yellow{background:var(--q-yellow);}
+    .btn-green{background:var(--q-green);}
+
+    /* ===== Feedback screen ===== */
+    .feedback-screen{
+      background:#fff;
+      color:#23272a;
+      border-radius:28px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.35);
+      padding:40px;
+      text-align:center;
+      animation: pop .4s cubic-bezier(.2,1.4,.5,1);
+    }
+    .feedback-screen .emoji{font-size:80px;line-height:1;margin-bottom:14px;}
+    .feedback-screen h2{
+      font-size:36px;
+      font-weight:800;
+      margin:0 0 6px;
+    }
+    .feedback-screen h2.right{color:#26890c;}
+    .feedback-screen h2.wrong{color:#e21b3c;}
+    .feedback-screen h2.timeup{color:#d89e00;}
+    .feedback-screen .explain{
+      max-width:640px;
+      margin:18px auto 24px;
+      color:#4a4e53;
+      font-size:16px;
+      line-height:1.6;
+      background:#fafaff;
+      border-radius:14px;
+      padding:16px 20px;
+      text-align:left;
+    }
+    .feedback-screen .explain strong{color:#46178f;}
+    .points-earned{
+      display:inline-block;
+      background:linear-gradient(135deg,#26890c,#4caf50);
+      color:#fff;
+      font-size:26px;
+      font-weight:800;
+      padding:10px 26px;
+      border-radius:30px;
+      margin:10px 0;
+    }
+    .points-earned.zero{background:linear-gradient(135deg,#858585,#a0a0a0);}
+    .total-score{
+      font-size:15px;
+      color:#6b6f73;
+      margin-top:10px;
+    }
+    .total-score strong{color:#46178f;font-size:20px;}
+
+    /* ===== End screen ===== */
+    .final-trophy{
+      text-align:center;
+      margin-bottom:30px;
+    }
+    .final-trophy .emoji{font-size:100px;line-height:1;}
+    .final-score{
+      text-align:center;
+      margin-bottom:30px;
+    }
+    .final-score .big{
+      font-size:72px;
+      font-weight:800;
+      color:#46178f;
+      line-height:1;
+      font-family:'Poppins',sans-serif;
+    }
+    .final-score .label{
+      font-size:14px;
+      color:#6b6f73;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      margin-top:6px;
+    }
+    .final-stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-bottom:30px;
+    }
+    .stat-tile{
+      background:#fafaff;
+      border-radius:14px;
+      padding:14px;
+      text-align:center;
+      border:2px solid #ede9fe;
+    }
+    .stat-tile .v{font-size:22px;font-weight:800;color:#46178f;}
+    .stat-tile .k{font-size:11px;color:#6b6f73;text-transform:uppercase;letter-spacing:.8px;margin-top:4px;}
+
+    .leaderboard{
+      background:#fafaff;
+      border-radius:20px;
+      padding:24px;
+      border:2px solid #ede9fe;
+      margin-bottom:20px;
+    }
+    .leaderboard h3{
+      margin:0 0 16px;
+      color:#46178f;
+      font-size:20px;
+      text-align:center;
+      font-weight:800;
+    }
+    .lb-empty{text-align:center;color:#9ca0a4;font-style:italic;padding:20px;}
+    .lb-row{
+      display:grid;
+      grid-template-columns:40px 1fr auto;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      background:#fff;
+      border-radius:12px;
+      margin-bottom:8px;
+      transition:transform .15s;
+      border:2px solid transparent;
+    }
+    .lb-row.you{
+      background:linear-gradient(135deg,#fff7ed,#fef3c7);
+      border-color:#f59e0b;
+      transform:scale(1.02);
+    }
+    .lb-row.gold{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;}
+    .lb-row.silver{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);border-color:#9ca3af;}
+    .lb-row.bronze{background:linear-gradient(135deg,#fed7aa,#fdba74);border-color:#ea580c;}
+    .lb-rank{
+      font-weight:800;
+      font-size:18px;
+      color:#46178f;
+      text-align:center;
+    }
+    .lb-rank.medal{font-size:22px;}
+    .lb-name{
+      font-weight:700;
+      color:#23272a;
+      font-size:15px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .lb-name small{display:block;font-weight:500;color:#6b6f73;font-size:11px;}
+    .lb-score{
+      font-weight:800;
+      color:#46178f;
+      font-size:18px;
+    }
+
+    .end-buttons{display:flex;gap:12px;flex-wrap:wrap;}
+    .end-buttons button, .end-buttons a{
+      flex:1;
+      min-width:140px;
+      padding:14px 20px;
+      font-size:15px;
+      font-weight:700;
+      border-radius:14px;
+      border:none;
+      cursor:pointer;
+      font-family:inherit;
+      text-decoration:none;
+      text-align:center;
+      transition:all .2s;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,#46178f,#864cbf);
+      color:#fff;
+    }
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(70,23,143,0.35);}
+    .btn-secondary{
+      background:#ede9fe;
+      color:#46178f;
+    }
+    .btn-secondary:hover{background:#ddd6fe;}
+    .btn-danger{
+      background:#fee2e2;
+      color:#e21b3c;
+    }
+    .btn-danger:hover{background:#fecaca;}
+
+    /* ===== Confetti ===== */
+    .confetti{
+      position:fixed;
+      pointer-events:none;
+      inset:0;
+      overflow:hidden;
+      z-index:99;
+    }
+    .confetti span{
+      position:absolute;
+      top:-20px;
+      width:10px;
+      height:14px;
+      opacity:.9;
+      animation: fall linear forwards;
+    }
+    @keyframes fall{
+      to{transform:translateY(110vh) rotate(720deg);opacity:0;}
+    }
+
+    /* Mobile */
+    @media (max-width:640px){
+      .quiz-wrap{padding:20px 12px 60px;}
+      .screen{padding:26px 20px;border-radius:20px;}
+      .start-meta{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+      .answer-grid{grid-template-columns:1fr;}
+      .answer-btn{min-height:64px;padding:16px;font-size:15px;}
+      .timer-ring{width:60px;height:60px;}
+      .timer-ring .t{font-size:20px;}
+      .final-score .big{font-size:56px;}
+      .final-stats{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+      .stat-tile .v{font-size:18px;}
+    }
+  </style>
+</head>
+<body class="quiz-body">
+
+  <div class="quiz-wrap">
+    <div class="quiz-topbar">
+      <a href="students.html" class="back-link">&larr; Back to Course</a>
+      <div class="quiz-logo">THERMO <span style="opacity:.7;">QUIZ</span></div>
+    </div>
+
+    <!-- ===== START SCREEN ===== -->
+    <div class="screen" id="startScreen">
+      <div style="text-align:center;">
+        <span class="start-badge">SETK 4643 &middot; Chapters 1 &amp; 2</span>
+      </div>
+      <h1>Thermodynamics Quiz</h1>
+      <p class="sub">Introduction, Basic Concepts &amp; Energy Transfer &mdash; test your speed and knowledge!</p>
+
+      <div class="start-meta">
+        <div class="meta-pill"><div class="n" id="qCount">12</div><div class="l">Questions</div></div>
+        <div class="meta-pill"><div class="n">20s</div><div class="l">Per Question</div></div>
+        <div class="meta-pill"><div class="n">1000</div><div class="l">Max Points</div></div>
+      </div>
+
+      <label for="playerName" style="display:block;text-align:center;color:#46178f;font-weight:700;margin-bottom:10px;font-size:15px;">Enter your nickname to begin</label>
+      <input type="text" id="playerName" class="name-input" placeholder="Your nickname" maxlength="20" autocomplete="off" />
+      <button id="startBtn" class="start-btn" disabled>START QUIZ &rarr;</button>
+
+      <div class="how-to">
+        <h3>&#127919; How scoring works (just like Kahoot!)</h3>
+        <ul>
+          <li><strong>Correct answer</strong> = up to <strong>1000 points</strong> per question</li>
+          <li><strong>The faster you answer, the more points you earn</strong></li>
+          <li>Wrong answer or timeout = 0 points</li>
+          <li>Top scores are saved to the leaderboard on this device</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== PLAY SCREEN ===== -->
+    <div class="screen hidden" id="playScreen">
+      <div class="play-header">
+        <div class="q-counter" id="qCounter">Question 1 / 12</div>
+        <div class="timer-ring" aria-label="Time left">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle class="bg" cx="40" cy="40" r="36"></circle>
+            <circle class="fg" id="timerFg" cx="40" cy="40" r="36"></circle>
+          </svg>
+          <div class="t" id="timerT">20</div>
+        </div>
+        <div class="q-score" id="qScore">&#11088; 0 pts</div>
+      </div>
+
+      <div class="question-box">
+        <div class="q-chapter" id="qChapter">Chapter 1</div>
+        <p class="q-text" id="qText">Question text...</p>
+      </div>
+
+      <div class="answer-grid" id="answerGrid">
+        <!-- buttons injected -->
+      </div>
+    </div>
+
+    <!-- ===== FEEDBACK SCREEN ===== -->
+    <div class="feedback-screen hidden" id="feedbackScreen">
+      <div class="emoji" id="fbEmoji">&#127881;</div>
+      <h2 id="fbTitle" class="right">Correct!</h2>
+      <div class="points-earned" id="fbPoints">+900 points</div>
+      <div class="explain" id="fbExplain"></div>
+      <div class="total-score">Total: <strong id="fbTotal">0</strong> points</div>
+    </div>
+
+    <!-- ===== END SCREEN ===== -->
+    <div class="screen hidden" id="endScreen">
+      <div class="final-trophy"><div class="emoji" id="finalEmoji">&#127942;</div></div>
+      <h1 id="finalTitle">Quiz Complete!</h1>
+      <p class="sub" id="finalSub">Well done, <span id="finalName">player</span>!</p>
+
+      <div class="final-score">
+        <div class="big" id="finalScore">0</div>
+        <div class="label">Total Points</div>
+      </div>
+
+      <div class="final-stats">
+        <div class="stat-tile"><div class="v" id="statCorrect">0 / 12</div><div class="k">Correct</div></div>
+        <div class="stat-tile"><div class="v" id="statAccuracy">0%</div><div class="k">Accuracy</div></div>
+        <div class="stat-tile"><div class="v" id="statAvg">0.0s</div><div class="k">Avg Time</div></div>
+      </div>
+
+      <div class="leaderboard">
+        <h3>&#127942; Top 10 Leaderboard</h3>
+        <div id="leaderboardList"></div>
+      </div>
+
+      <div class="end-buttons">
+        <button class="btn-primary" onclick="window.location.reload()">Play Again</button>
+        <a class="btn-secondary" href="students.html">Back to Course</a>
+        <button class="btn-danger" id="resetLbBtn">Reset Leaderboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+  // ===== Question bank (Chapters 1 & 2 of Thermodynamics) =====
+  const QUESTIONS = [
+    // --- Chapter 1: Introduction & Basic Concepts ---
+    {
+      chapter: "Chapter 1 &middot; Basic Concepts",
+      q: "Which definition best describes thermodynamics?",
+      options: [
+        "The study of fluid flow only",
+        "The science of energy and its transformations",
+        "The study of chemical reactions",
+        "The mechanics of rigid bodies"
+      ],
+      correct: 1,
+      explain: "Thermodynamics is the <strong>science of energy</strong> &mdash; it deals with energy, heat, work, and the transformations between them."
+    },
+    {
+      chapter: "Chapter 1 &middot; System Types",
+      q: "A closed system allows the transfer of:",
+      options: [
+        "Mass and energy",
+        "Mass only",
+        "Energy only (heat and work)",
+        "Neither mass nor energy"
+      ],
+      correct: 2,
+      explain: "A <strong>closed system</strong> (control mass) has a fixed amount of mass &mdash; no mass crosses its boundary, but <strong>energy</strong> (heat and work) can."
+    },
+    {
+      chapter: "Chapter 1 &middot; System Types",
+      q: "An open system is also known as a:",
+      options: [
+        "Control mass",
+        "Control volume",
+        "Isolated system",
+        "Adiabatic system"
+      ],
+      correct: 1,
+      explain: "An <strong>open system</strong> is called a <strong>control volume</strong>. Mass and energy can cross its boundary &mdash; e.g., turbines, compressors, nozzles."
+    },
+    {
+      chapter: "Chapter 1 &middot; Properties",
+      q: "Which of the following is an intensive property?",
+      options: [
+        "Mass",
+        "Volume",
+        "Temperature",
+        "Total energy"
+      ],
+      correct: 2,
+      explain: "<strong>Intensive properties</strong> do not depend on system size &mdash; temperature, pressure, and density. Mass, volume, and total energy are <em>extensive</em>."
+    },
+    {
+      chapter: "Chapter 1 &middot; Units",
+      q: "The SI unit of pressure (pascal, Pa) is equivalent to:",
+      options: [
+        "N &middot; m",
+        "N / m&sup2;",
+        "kg &middot; m / s",
+        "J / kg"
+      ],
+      correct: 1,
+      explain: "1 Pa = 1 N/m&sup2;. Pressure is force per unit area."
+    },
+    {
+      chapter: "Chapter 1 &middot; Zeroth Law",
+      q: "The Zeroth Law of Thermodynamics establishes the basis for measuring:",
+      options: [
+        "Pressure",
+        "Temperature",
+        "Volume",
+        "Mass"
+      ],
+      correct: 1,
+      explain: "The <strong>Zeroth Law</strong> states: if two bodies are each in thermal equilibrium with a third, they are in equilibrium with each other &mdash; the foundation of <strong>temperature</strong> measurement."
+    },
+    {
+      chapter: "Chapter 1 &middot; Pressure",
+      q: "A pressure gauge reads 100 kPa. If atmospheric pressure is 101 kPa, the absolute pressure is:",
+      options: [
+        "-1 kPa",
+        "1 kPa",
+        "201 kPa",
+        "100 kPa"
+      ],
+      correct: 2,
+      explain: "P<sub>abs</sub> = P<sub>gauge</sub> + P<sub>atm</sub> = 100 + 101 = <strong>201 kPa</strong>. Gauge pressure is measured relative to atmospheric."
+    },
+    {
+      chapter: "Chapter 1 &middot; Process",
+      q: "A process during which the temperature remains constant is called:",
+      options: [
+        "Isobaric",
+        "Isochoric",
+        "Isothermal",
+        "Adiabatic"
+      ],
+      correct: 2,
+      explain: "<strong>Isothermal</strong> = constant <em>T</em>. Isobaric = constant <em>P</em>, isochoric = constant <em>V</em>, adiabatic = no heat transfer."
+    },
+
+    // --- Chapter 2: Energy, Energy Transfer & General Energy Analysis ---
+    {
+      chapter: "Chapter 2 &middot; Forms of Energy",
+      q: "The sum of all microscopic forms of energy of a system is called:",
+      options: [
+        "Kinetic energy",
+        "Potential energy",
+        "Internal energy (U)",
+        "Flow energy"
+      ],
+      correct: 2,
+      explain: "<strong>Internal energy U</strong> is the sum of microscopic energies &mdash; molecular translation, rotation, vibration, and intermolecular forces."
+    },
+    {
+      chapter: "Chapter 2 &middot; Energy Transfer",
+      q: "Heat transfer is driven by a difference in:",
+      options: [
+        "Pressure",
+        "Volume",
+        "Temperature",
+        "Density"
+      ],
+      correct: 2,
+      explain: "Heat is energy transferred due to a <strong>temperature difference</strong>. No &Delta;T, no heat transfer &mdash; that&rsquo;s an adiabatic boundary."
+    },
+    {
+      chapter: "Chapter 2 &middot; Heat vs Work",
+      q: "Which statement about heat and work is TRUE?",
+      options: [
+        "Both are properties of a system",
+        "Both are path functions, not properties",
+        "Heat is a property; work is not",
+        "Work is a property; heat is not"
+      ],
+      correct: 1,
+      explain: "Heat (Q) and work (W) are <strong>path functions</strong> &mdash; they depend on the process taken, not just end states. They are NOT properties of the system."
+    },
+    {
+      chapter: "Chapter 2 &middot; Sign Convention",
+      q: "By the classical sign convention, heat transferred <em>to</em> a system and work done <em>by</em> the system are:",
+      options: [
+        "Both negative",
+        "Both positive",
+        "Q positive, W negative",
+        "Q negative, W positive"
+      ],
+      correct: 1,
+      explain: "In the classical convention: <strong>Q<sub>in</sub> is positive</strong> (heat added) and <strong>W<sub>out</sub> is positive</strong> (work done by the system). So &Delta;E = Q<sub>in</sub> &minus; W<sub>out</sub>."
+    },
+    {
+      chapter: "Chapter 2 &middot; First Law",
+      q: "The First Law of Thermodynamics is a statement of:",
+      options: [
+        "Conservation of mass",
+        "Conservation of energy",
+        "Conservation of entropy",
+        "Conservation of momentum"
+      ],
+      correct: 1,
+      explain: "The <strong>First Law</strong> = <strong>conservation of energy</strong>. Energy cannot be created or destroyed &mdash; only transformed or transferred."
+    },
+    {
+      chapter: "Chapter 2 &middot; Closed System",
+      q: "For a closed system undergoing a cycle, the net heat transfer equals:",
+      options: [
+        "Zero",
+        "Net work done",
+        "Change in internal energy",
+        "Change in enthalpy"
+      ],
+      correct: 1,
+      explain: "Over a cycle, &Delta;E = 0, so &#8750;&delta;Q = &#8750;&delta;W. The <strong>net heat input equals the net work output</strong> &mdash; the basis of heat engines."
+    },
+    {
+      chapter: "Chapter 2 &middot; Efficiency",
+      q: "A heater uses 1000 W of electrical power and delivers 900 W of useful heat. Its efficiency is:",
+      options: [
+        "0.9%",
+        "9%",
+        "90%",
+        "111%"
+      ],
+      correct: 2,
+      explain: "&eta; = useful output / total input = 900 / 1000 = <strong>0.90 = 90%</strong>."
+    },
+    {
+      chapter: "Chapter 2 &middot; Power",
+      q: "The SI unit of power is the watt (W), equivalent to:",
+      options: [
+        "1 J/s",
+        "1 J &middot; s",
+        "1 N/m",
+        "1 kg/s"
+      ],
+      correct: 0,
+      explain: "1 W = <strong>1 joule per second</strong>. Power is the rate of energy transfer."
+    }
+  ];
+
+  // Use first 12 shuffled
+  const TOTAL_QUESTIONS = 12;
+  const TIME_PER_Q = 20; // seconds
+  const MAX_POINTS = 1000;
+
+  // ===== State =====
+  const state = {
+    player: "",
+    idx: 0,
+    score: 0,
+    correctCount: 0,
+    totalTime: 0,
+    timer: null,
+    timeLeft: TIME_PER_Q,
+    questionStart: 0,
+    answered: false,
+    questions: []
+  };
+
+  // ===== Utilities =====
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+  function $(id){return document.getElementById(id);}
+  function show(id){ ['startScreen','playScreen','feedbackScreen','endScreen'].forEach(s=>$(s).classList.add('hidden')); $(id).classList.remove('hidden');}
+
+  // ===== Start =====
+  document.addEventListener('DOMContentLoaded', ()=>{
+    $('qCount').textContent = TOTAL_QUESTIONS;
+
+    const nameInput = $('playerName');
+    const startBtn = $('startBtn');
+    nameInput.addEventListener('input', ()=>{
+      startBtn.disabled = nameInput.value.trim().length < 1;
+    });
+    nameInput.addEventListener('keydown', e=>{
+      if(e.key==='Enter' && !startBtn.disabled) startBtn.click();
+    });
+    startBtn.addEventListener('click', startQuiz);
+    $('resetLbBtn').addEventListener('click', ()=>{
+      if(confirm('Reset the entire leaderboard? This cannot be undone.')){
+        localStorage.removeItem('thermoQuizLB');
+        renderLeaderboard();
+      }
+    });
+  });
+
+  function startQuiz(){
+    state.player = $('playerName').value.trim().slice(0,20);
+    state.idx = 0;
+    state.score = 0;
+    state.correctCount = 0;
+    state.totalTime = 0;
+    // Pick first 12 shuffled, also shuffle each question's options
+    state.questions = shuffle(QUESTIONS).slice(0, TOTAL_QUESTIONS).map(q=>{
+      const idxs = shuffle(q.options.map((_,i)=>i));
+      const newOptions = idxs.map(i=>q.options[i]);
+      const newCorrect = idxs.indexOf(q.correct);
+      return { ...q, options:newOptions, correct:newCorrect };
+    });
+    show('playScreen');
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    const q = state.questions[state.idx];
+    state.answered = false;
+    state.timeLeft = TIME_PER_Q;
+    state.questionStart = performance.now();
+
+    $('qCounter').textContent = `Question ${state.idx+1} / ${TOTAL_QUESTIONS}`;
+    $('qScore').innerHTML = `&#11088; ${state.score} pts`;
+    $('qChapter').innerHTML = q.chapter;
+    $('qText').innerHTML = q.q;
+
+    // Answer buttons with 4 colors (red, blue, yellow, green) + shapes
+    const colors = ['btn-red','btn-blue','btn-yellow','btn-green'];
+    const shapes = ['&#9650;','&#9670;','&#9679;','&#9632;']; // triangle, diamond, circle, square
+    const grid = $('answerGrid');
+    grid.innerHTML = '';
+    q.options.forEach((opt, i)=>{
+      const btn = document.createElement('button');
+      btn.className = `answer-btn ${colors[i]}`;
+      btn.innerHTML = `<span class="shape">${shapes[i]}</span><span>${opt}</span>`;
+      btn.addEventListener('click', ()=>handleAnswer(i));
+      grid.appendChild(btn);
+    });
+
+    // Timer
+    updateTimerVisual();
+    if(state.timer) clearInterval(state.timer);
+    state.timer = setInterval(()=>{
+      state.timeLeft -= 1;
+      if(state.timeLeft <= 0){
+        clearInterval(state.timer);
+        if(!state.answered) handleAnswer(-1); // timeout
+      } else {
+        updateTimerVisual();
+      }
+    }, 1000);
+  }
+
+  function updateTimerVisual(){
+    const t = Math.max(0, state.timeLeft);
+    $('timerT').textContent = t;
+    const pct = t / TIME_PER_Q;
+    const circ = 2 * Math.PI * 36; // 226.19
+    $('timerFg').style.strokeDasharray = circ;
+    $('timerFg').style.strokeDashoffset = circ * (1 - pct);
+    $('timerFg').style.stroke = t <= 5 ? '#e21b3c' : (t <= 10 ? '#d89e00' : '#46178f');
+    $('timerT').style.color = t <= 5 ? '#e21b3c' : (t <= 10 ? '#d89e00' : '#46178f');
+  }
+
+  function handleAnswer(choice){
+    if(state.answered) return;
+    state.answered = true;
+    clearInterval(state.timer);
+
+    const q = state.questions[state.idx];
+    const elapsedMs = performance.now() - state.questionStart;
+    const elapsed = Math.min(elapsedMs/1000, TIME_PER_Q);
+    state.totalTime += elapsed;
+
+    const timeout = (choice === -1);
+    const correct = (choice === q.correct);
+
+    // Kahoot-like scoring: up to 1000 points, linear with time saved
+    let pts = 0;
+    if(correct){
+      // Fast answers get near 1000, slow answers get ~500-700
+      // Kahoot formula-ish: 500 + 500 * (timeLeft / totalTime)
+      const fraction = 1 - (elapsed / TIME_PER_Q);
+      pts = Math.round(500 + 500 * fraction);
+      state.score += pts;
+      state.correctCount += 1;
+    }
+
+    // Visual feedback on buttons
+    const buttons = document.querySelectorAll('.answer-btn');
+    buttons.forEach((b, i)=>{
+      b.disabled = true;
+      if(i === q.correct) b.classList.add('correct');
+      else if(i === choice && !correct) b.classList.add('wrong');
+      else b.classList.add('dim');
+    });
+
+    // Show feedback screen after brief delay
+    setTimeout(()=>showFeedback(correct, timeout, pts, q.explain), 900);
+  }
+
+  function showFeedback(correct, timeout, pts, explain){
+    const emoji = $('fbEmoji');
+    const title = $('fbTitle');
+    const points = $('fbPoints');
+    title.className = '';
+    if(correct){
+      emoji.innerHTML = '&#127881;';
+      title.textContent = 'Correct!';
+      title.classList.add('right');
+      points.classList.remove('zero');
+      points.textContent = `+${pts} points`;
+    } else if(timeout){
+      emoji.innerHTML = '&#9200;';
+      title.textContent = "Time's up!";
+      title.classList.add('timeup');
+      points.classList.add('zero');
+      points.textContent = '+0 points';
+    } else {
+      emoji.innerHTML = '&#128533;';
+      title.textContent = 'Incorrect';
+      title.classList.add('wrong');
+      points.classList.add('zero');
+      points.textContent = '+0 points';
+    }
+    $('fbExplain').innerHTML = explain;
+    $('fbTotal').textContent = state.score;
+    show('feedbackScreen');
+
+    // Auto-advance after 3 seconds
+    setTimeout(()=>{
+      state.idx += 1;
+      if(state.idx >= TOTAL_QUESTIONS){
+        endQuiz();
+      } else {
+        show('playScreen');
+        renderQuestion();
+      }
+    }, 3000);
+  }
+
+  function endQuiz(){
+    // Save to leaderboard
+    const entry = {
+      name: state.player,
+      score: state.score,
+      correct: state.correctCount,
+      total: TOTAL_QUESTIONS,
+      avgTime: state.totalTime / TOTAL_QUESTIONS,
+      date: new Date().toISOString()
+    };
+    saveLeaderboard(entry);
+
+    // Populate end screen
+    $('finalName').textContent = state.player;
+    $('finalScore').textContent = state.score.toLocaleString();
+    $('statCorrect').textContent = `${state.correctCount} / ${TOTAL_QUESTIONS}`;
+    const acc = Math.round((state.correctCount/TOTAL_QUESTIONS)*100);
+    $('statAccuracy').textContent = `${acc}%`;
+    $('statAvg').textContent = `${(state.totalTime/TOTAL_QUESTIONS).toFixed(1)}s`;
+
+    // Trophy emoji by performance
+    const fe = $('finalEmoji');
+    const ft = $('finalTitle');
+    const fs = $('finalSub');
+    if(acc >= 90){ fe.innerHTML='&#128081;'; ft.textContent='Thermo Champion!'; fs.innerHTML=`Outstanding work, <span id="finalName">${escapeHtml(state.player)}</span>! &#128293;`; }
+    else if(acc >= 70){ fe.innerHTML='&#127942;'; ft.textContent='Great job!'; fs.innerHTML=`Solid run, <span id="finalName">${escapeHtml(state.player)}</span>!`; }
+    else if(acc >= 50){ fe.innerHTML='&#128170;'; ft.textContent='Not bad!'; fs.innerHTML=`Keep practicing, <span id="finalName">${escapeHtml(state.player)}</span>!`; }
+    else { fe.innerHTML='&#128218;'; ft.textContent='Quiz complete'; fs.innerHTML=`Review Chapters 1 &amp; 2 and try again, <span id="finalName">${escapeHtml(state.player)}</span>!`; }
+
+    renderLeaderboard(entry);
+    show('endScreen');
+
+    if(acc >= 70) launchConfetti();
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function saveLeaderboard(entry){
+    const lb = getLeaderboard();
+    lb.push(entry);
+    lb.sort((a,b)=>b.score - a.score);
+    const top = lb.slice(0, 50);
+    try { localStorage.setItem('thermoQuizLB', JSON.stringify(top)); } catch(e){}
+  }
+  function getLeaderboard(){
+    try {
+      const raw = localStorage.getItem('thermoQuizLB');
+      return raw ? JSON.parse(raw) : [];
+    } catch(e){ return []; }
+  }
+
+  function renderLeaderboard(currentEntry){
+    const list = $('leaderboardList');
+    const lb = getLeaderboard().slice(0, 10);
+    if(!lb.length){
+      list.innerHTML = '<div class="lb-empty">No scores yet. Be the first!</div>';
+      return;
+    }
+    list.innerHTML = lb.map((e, i)=>{
+      const rank = i+1;
+      const isYou = currentEntry && e.name===currentEntry.name && e.date===currentEntry.date;
+      let rowCls = '';
+      if(isYou) rowCls += ' you';
+      if(rank===1) rowCls += ' gold';
+      else if(rank===2) rowCls += ' silver';
+      else if(rank===3) rowCls += ' bronze';
+      let medal = `${rank}`;
+      let medalCls = '';
+      if(rank===1){ medal='&#129351;'; medalCls=' medal'; }
+      else if(rank===2){ medal='&#129352;'; medalCls=' medal'; }
+      else if(rank===3){ medal='&#129353;'; medalCls=' medal'; }
+      const d = new Date(e.date);
+      const datestr = `${d.toLocaleDateString()} &middot; ${e.correct}/${e.total} &middot; avg ${e.avgTime.toFixed(1)}s`;
+      return `<div class="lb-row${rowCls}">
+        <div class="lb-rank${medalCls}">${medal}</div>
+        <div class="lb-name">${escapeHtml(e.name)}${isYou?' <span style="color:#f59e0b;font-weight:800;">(YOU)</span>':''}<small>${datestr}</small></div>
+        <div class="lb-score">${e.score.toLocaleString()}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ===== Confetti =====
+  function launchConfetti(){
+    const c = $('confetti');
+    c.innerHTML = '';
+    const colors = ['#e21b3c','#1368ce','#d89e00','#26890c','#864cbf','#f59e0b'];
+    for(let i=0; i<80; i++){
+      const s = document.createElement('span');
+      s.style.left = Math.random()*100 + 'vw';
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      s.style.animationDuration = (2 + Math.random()*2) + 's';
+      s.style.animationDelay = (Math.random()*0.8) + 's';
+      s.style.transform = `rotate(${Math.random()*360}deg)`;
+      c.appendChild(s);
+    }
+    setTimeout(()=>{ c.innerHTML=''; }, 5000);
+  }
+  </script>
+</body>
+</html>
