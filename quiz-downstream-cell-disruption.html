@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cell Disruption Quiz (SETK 4643) | Dr. Nur Hidayah Zainan</title>
+  <meta name="description" content="Kahoot-style quiz on Lecture 4 (Cell Disruption) of Downstream Bioprocessing SETK 4643. Play fast, answer correctly, and compete for the top spot on the shared leaderboard." />
+  <meta name="keywords" content="cell disruption quiz, SETK 4643, downstream bioprocessing, Kahoot, UTM, Nur Hidayah Zainan, bead mill, lysozyme, osmotic shock, French press" />
+  <meta name="author" content="Dr. Nur Hidayah Binti Zainan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hidayah.biomechemical.com/quiz-downstream-cell-disruption.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="quiz-styles.css?v=1" />
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="quiz-config.js?v=1"></script>
+</head>
+<body class="quiz-body">
+
+  <div class="quiz-wrap">
+    <div class="quiz-topbar">
+      <a href="students.html" class="back-link">&larr; Back to Course</a>
+      <div class="quiz-logo">CELL DISRUPTION <span style="opacity:.7;">QUIZ</span></div>
+    </div>
+
+    <!-- START -->
+    <div class="screen" id="startScreen">
+      <div style="text-align:center;">
+        <span class="start-badge">SETK 4643 &middot; Lecture 4: Cell Disruption</span>
+        <span id="backendBadge" class="start-badge" style="margin-left:6px;background:linear-gradient(135deg,#6b7280,#9ca3af);">&#128190; Local &middot; this device only</span>
+      </div>
+      <h1>Cell Disruption Quiz</h1>
+      <p class="sub">Bead mill, French press, lysozyme, osmotic shock &mdash; test your speed and knowledge!</p>
+
+      <div class="start-meta">
+        <div class="meta-pill"><div class="n" id="qCount">12</div><div class="l">Questions</div></div>
+        <div class="meta-pill"><div class="n">20s</div><div class="l">Per Question</div></div>
+        <div class="meta-pill"><div class="n">1000</div><div class="l">Max Points</div></div>
+      </div>
+
+      <label for="playerName" style="display:block;text-align:center;color:#46178f;font-weight:700;margin-bottom:10px;font-size:15px;">Enter your nickname to begin</label>
+      <input type="text" id="playerName" class="name-input" placeholder="Your nickname" maxlength="20" autocomplete="off" />
+      <button id="startBtn" class="start-btn" disabled>START QUIZ &rarr;</button>
+      <button id="viewLbBtn" type="button" style="display:block;width:100%;margin-top:10px;padding:14px;font-size:15px;font-weight:700;background:#ede9fe;color:#46178f;border:none;border-radius:14px;cursor:pointer;font-family:inherit;">&#127942; View Leaderboard</button>
+
+      <div class="how-to">
+        <h3>&#127919; How scoring works (just like Kahoot!)</h3>
+        <ul>
+          <li><strong>Correct answer</strong> = up to <strong>1000 points</strong> per question</li>
+          <li><strong>The faster you answer, the more points you earn</strong></li>
+          <li>Wrong answer or timeout = 0 points</li>
+          <li>Top scores appear on the shared class leaderboard</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PLAY -->
+    <div class="screen hidden" id="playScreen">
+      <div class="play-header">
+        <div class="q-counter" id="qCounter">Question 1 / 12</div>
+        <div class="timer-ring" aria-label="Time left">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle class="bg" cx="40" cy="40" r="36"></circle>
+            <circle class="fg" id="timerFg" cx="40" cy="40" r="36"></circle>
+          </svg>
+          <div class="t" id="timerT">20</div>
+        </div>
+        <div class="q-score" id="qScore">&#11088; 0 pts</div>
+      </div>
+
+      <div class="question-box">
+        <div class="q-chapter" id="qChapter">Topic</div>
+        <p class="q-text" id="qText">Question text...</p>
+      </div>
+
+      <div class="answer-grid" id="answerGrid"></div>
+    </div>
+
+    <!-- LEADERBOARD ONLY -->
+    <div class="screen hidden" id="lbScreen">
+      <div style="text-align:center;"><div style="font-size:70px;line-height:1;margin-bottom:6px;">&#127942;</div></div>
+      <h1>Leaderboard</h1>
+      <p class="sub" id="lbSub">Top 10 scores saved on this device</p>
+      <div class="leaderboard" style="margin-bottom:20px;">
+        <div id="lbScreenList"></div>
+      </div>
+      <div class="end-buttons">
+        <button class="btn-primary" id="lbBackBtn">&larr; Back</button>
+        <button class="btn-danger" id="lbResetBtn">Reset Leaderboard</button>
+      </div>
+      <p id="lbNote" style="text-align:center;color:#6b6f73;font-size:12px;margin-top:18px;line-height:1.5;"></p>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="feedback-screen hidden" id="feedbackScreen">
+      <div class="emoji" id="fbEmoji">&#127881;</div>
+      <h2 id="fbTitle" class="right">Correct!</h2>
+      <div class="points-earned" id="fbPoints">+900 points</div>
+      <div class="explain" id="fbExplain"></div>
+      <div class="total-score">Total: <strong id="fbTotal">0</strong> points</div>
+    </div>
+
+    <!-- END -->
+    <div class="screen hidden" id="endScreen">
+      <div class="final-trophy"><div class="emoji" id="finalEmoji">&#127942;</div></div>
+      <h1 id="finalTitle">Quiz Complete!</h1>
+      <p class="sub" id="finalSub">Well done, <span id="finalName">player</span>!</p>
+
+      <div class="final-score">
+        <div class="big" id="finalScore">0</div>
+        <div class="label">Total Points</div>
+      </div>
+
+      <div class="final-stats">
+        <div class="stat-tile"><div class="v" id="statCorrect">0 / 12</div><div class="k">Correct</div></div>
+        <div class="stat-tile"><div class="v" id="statAccuracy">0%</div><div class="k">Accuracy</div></div>
+        <div class="stat-tile"><div class="v" id="statAvg">0.0s</div><div class="k">Avg Time</div></div>
+      </div>
+
+      <div class="leaderboard">
+        <h3>&#127942; Top 10 Leaderboard</h3>
+        <div id="leaderboardList"></div>
+      </div>
+
+      <div class="end-buttons">
+        <button class="btn-primary" onclick="window.location.reload()">Play Again</button>
+        <a class="btn-secondary" href="students.html">Back to Course</a>
+        <button class="btn-danger" id="resetLbBtn">Reset Leaderboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+  window.QUIZ_CONFIG = {
+    title: "Cell Disruption Quiz",
+    subtitleBadge: "SETK 4643 &middot; Lecture 4",
+    logoText: "CELL DISRUPTION QUIZ",
+    reviewText: "Review Lecture 4 (Cell Disruption)",
+    lbCollection: "cellDisruptionQuizLB",
+    lbLocalKey: "cellDisruptionQuizLB",
+    totalQuestions: 12,
+    timePerQ: 20,
+    questions: [
+      {
+        chapter: "Intro &middot; Products",
+        q: "Biological products from fermentation are classified as:",
+        options: [
+          "Intracellular or extracellular",
+          "Solid or liquid only",
+          "Aerobic or anaerobic",
+          "Acidic or basic"
+        ],
+        correct: 0,
+        explain: "Products are either <strong>intracellular</strong> (inside cells, e.g. enzymes, vitamins) or <strong>extracellular</strong> (secreted, e.g. antibiotics, alcohol). The cell itself (e.g. baker&rsquo;s yeast) can also be the product."
+      },
+      {
+        chapter: "Why Disrupt?",
+        q: "Cell disruption is needed mainly to:",
+        options: [
+          "Sterilize the fermentation broth",
+          "Release intracellular products into the liquid medium",
+          "Increase the growth rate of cells",
+          "Change the pH of the medium"
+        ],
+        correct: 1,
+        explain: "Cell disruption breaks cell walls and/or membranes to <strong>release intracellular products</strong> (proteins, DNA, inclusion bodies) so they can be recovered."
+      },
+      {
+        chapter: "Effective Disruption",
+        q: "Which of the following is NOT a criterion for effective cell disruption?",
+        options: [
+          "High yield of target product",
+          "Low energy consumption",
+          "Maximum cell wall damage regardless of product",
+          "Limiting product degradation from heat or shear"
+        ],
+        correct: 2,
+        explain: "Effective disruption aims for high yield, low cost, low energy, minimal waste, and <strong>minimal damage to the product</strong>. Excessive force that destroys the product is undesirable."
+      },
+      {
+        chapter: "Cell Types &middot; Gram-positive",
+        q: "Gram-positive bacterial cell walls are mainly composed of:",
+        options: [
+          "Cellulose",
+          "Thick peptidoglycan, teichoic acid and polysaccharides",
+          "Lipopolysaccharides only",
+          "Chitin and glucans"
+        ],
+        correct: 1,
+        explain: "Gram-positive walls have a <strong>thick peptidoglycan</strong> layer with teichoic acid and polysaccharides. They are susceptible to lysis by lysozyme."
+      },
+      {
+        chapter: "Cell Types &middot; Gram-negative",
+        q: "Which layer in Gram-negative bacteria holds many recombinant proteins and can be targeted by osmotic shock?",
+        options: [
+          "Cytoplasm",
+          "Peptidoglycan",
+          "Periplasm",
+          "Outer lipopolysaccharide"
+        ],
+        correct: 2,
+        explain: "The <strong>periplasm</strong> (between plasma and outer membranes) houses many proteins, including recombinant ones. Osmotic shock expels periplasmic contents without full cell lysis."
+      },
+      {
+        chapter: "Cell Types &middot; Yeast",
+        q: "Yeast cell walls are typically:",
+        options: [
+          "0.02 &ndash; 0.04 &mu;m thick, made of peptidoglycan",
+          "0.1 &ndash; 0.2 &mu;m thick, made of glucans, mannans and chitins",
+          "Made of cellulose and lignin",
+          "Absent (no cell wall)"
+        ],
+        correct: 1,
+        explain: "Yeast walls are <strong>0.1&ndash;0.2 &mu;m thick</strong> and composed of polysaccharides: <strong>glucans, mannans, and chitins</strong>. Much thicker than bacterial walls."
+      },
+      {
+        chapter: "Mammalian vs Plant Cells",
+        q: "Which statement is correct?",
+        options: [
+          "Plant cells have no cell wall; mammalian cells are easy to disrupt",
+          "Mammalian cells have no cell wall and are fragile; plant cells have thick cellulose walls and are hard to disrupt",
+          "Both have peptidoglycan walls",
+          "Mammalian cells are tougher than plant cells"
+        ],
+        correct: 1,
+        explain: "<strong>Mammalian cells lack a cell wall</strong> and are fragile. <strong>Plant cells</strong> have thick cellulose/polysaccharide walls and are <strong>difficult to disrupt</strong>."
+      },
+      {
+        chapter: "Physical &middot; Bead Mill",
+        q: "A key disadvantage of bead milling is:",
+        options: [
+          "It cannot disrupt yeast cells",
+          "It generates large amounts of heat",
+          "It requires very low pressure",
+          "It only works on animal cells"
+        ],
+        correct: 1,
+        explain: "Bead milling generates <strong>enormous heat</strong>. Cryogenic cooling (liquid nitrogen or glycol) is used to protect heat-sensitive products."
+      },
+      {
+        chapter: "Physical &middot; Rotor-Stator",
+        q: "Typical rotation speed of a rotor-stator mill for cell disruption is:",
+        options: [
+          "100 &ndash; 500 rpm",
+          "1,000 &ndash; 5,000 rpm",
+          "10,000 &ndash; 50,000 rpm",
+          "100,000 &ndash; 500,000 rpm"
+        ],
+        correct: 2,
+        explain: "Rotor-stator mills run at <strong>10,000&ndash;50,000 rpm</strong>, disrupting cells by high shear and turbulence in the tiny gap between the rotating rotor and fixed stator."
+      },
+      {
+        chapter: "Physical &middot; French Press",
+        q: "French press typically operates at pressures of:",
+        options: [
+          "10 &ndash; 50 psig",
+          "100 &ndash; 500 psig",
+          "1,000 &ndash; 5,000 psig",
+          "10,000 &ndash; 50,000 psig"
+        ],
+        correct: 3,
+        explain: "French press operates at <strong>10,000&ndash;50,000 psig</strong>. Cells emerge at very high velocity through an orifice and are disrupted by shear and impact."
+      },
+      {
+        chapter: "Physical &middot; Ultrasonic",
+        q: "In ultrasonic cell disruption, disruption is caused primarily by:",
+        options: [
+          "Heat alone",
+          "Cavitation &mdash; formation and collapse of tiny bubbles releasing shock waves",
+          "Electric discharge",
+          "Magnetic stirring"
+        ],
+        correct: 1,
+        explain: "<strong>Cavitation</strong>: ultrasonic vibration forms tiny bubbles that collapse, releasing shock waves and shear forces that rupture cells."
+      },
+      {
+        chapter: "Physical &middot; Ultrasonic",
+        q: "The typical frequency used for ultrasonic cell disruption is about:",
+        options: [
+          "25 Hz",
+          "250 Hz",
+          "2.5 kHz",
+          "25 kHz"
+        ],
+        correct: 3,
+        explain: "A frequency of <strong>25 kHz</strong> is commonly used. The sonicator is pulsed on/off to dissipate the heat it generates."
+      },
+      {
+        chapter: "Chemical &middot; Detergents",
+        q: "Which detergent class is preferred for bioprocessing because it causes the least damage to proteins and DNA?",
+        options: [
+          "Cationic detergents",
+          "Anionic detergents",
+          "Non-ionic detergents (Triton-X, Tween)",
+          "Zwitterionic detergents"
+        ],
+        correct: 2,
+        explain: "<strong>Non-ionic detergents</strong> like <strong>Triton-X and Tween</strong> are preferred because they solubilize phospholipids while causing minimal damage to sensitive biomolecules."
+      },
+      {
+        chapter: "Chemical &middot; Lysozyme",
+        q: "Lysozyme disrupts cells by hydrolyzing:",
+        options: [
+          "&beta;-1,4-glycosidic bonds in peptidoglycan",
+          "Peptide bonds in proteins",
+          "Phosphodiester bonds in DNA",
+          "Ester bonds in phospholipids"
+        ],
+        correct: 0,
+        explain: "Lysozyme hydrolyzes the <strong>&beta;-1,4-glycosidic bonds in peptidoglycan</strong>, very effective on Gram-positive cell walls."
+      },
+      {
+        chapter: "Chemical &middot; Lysozyme",
+        q: "Lysozyme is most effective against:",
+        options: [
+          "Gram-negative bacteria without assistance",
+          "Plant cells",
+          "Gram-positive bacteria",
+          "Mammalian cells"
+        ],
+        correct: 2,
+        explain: "Lysozyme works best on <strong>Gram-positive bacteria</strong>. For Gram-negative it must be combined with EDTA or detergents to access the peptidoglycan."
+      },
+      {
+        chapter: "Chemical &middot; Organic Solvents",
+        q: "A key advantage of organic solvents (e.g. acetone, ethanol) over detergents is:",
+        options: [
+          "They never denature proteins",
+          "They are typically easier to remove from the product because of their volatility",
+          "They do not damage cell membranes",
+          "They are non-flammable"
+        ],
+        correct: 1,
+        explain: "Organic solvents are <strong>easier to remove due to their volatility</strong>. However, many proteins denature in them, which is a notable drawback."
+      },
+      {
+        chapter: "Physicochemical &middot; Osmotic Shock",
+        q: "Osmotic shock disrupts cells by:",
+        options: [
+          "Moving the cell from hypotonic to hypertonic medium",
+          "Moving the cell from isotonic to hypotonic medium, causing rapid water influx and rupture",
+          "Freezing and thawing repeatedly",
+          "Applying ultrasonic waves"
+        ],
+        correct: 1,
+        explain: "Transferring cells from isotonic to <strong>hypotonic</strong> medium causes <strong>rapid water influx</strong>, volume expansion, and rupture. Example: hemoglobin release from RBCs."
+      },
+      {
+        chapter: "Physicochemical &middot; Osmotic Shock",
+        q: "Osmotic shock is particularly useful for recovering:",
+        options: [
+          "Nuclear DNA",
+          "Cytoplasmic ribosomes",
+          "Periplasmic proteins without full cell lysis",
+          "Mitochondrial proteins"
+        ],
+        correct: 2,
+        explain: "Osmotic shock is mainly used to recover <strong>periplasmic substances</strong> (e.g. recombinant proteins) without physical cell disruption."
+      },
+      {
+        chapter: "Classification",
+        q: "Which method below is a NON-mechanical (chemical/physicochemical) cell disruption method?",
+        options: [
+          "Bead mill",
+          "French press",
+          "Ultrasonic vibration",
+          "Lysozyme treatment"
+        ],
+        correct: 3,
+        explain: "<strong>Lysozyme</strong> is an enzymatic (chemical) method. Bead mill, French press, and ultrasonic are all mechanical/physical methods."
+      },
+      {
+        chapter: "Emerging Methods",
+        q: "Which of the following is an emerging / advanced cell disruption method?",
+        options: [
+          "Bead mill",
+          "Pulsed electric field (PEF)",
+          "French press",
+          "Centrifugation"
+        ],
+        correct: 1,
+        explain: "Emerging methods include <strong>pulsed electric field (PEF)</strong>, microwave-assisted disruption, and supercritical CO&#8322; extraction."
+      }
+    ]
+  };
+  </script>
+  <script src="quiz-engine.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filtration Quiz (SETK 4643) | Dr. Nur Hidayah Zainan</title>
+  <meta name="description" content="Kahoot-style quiz on Lecture 5 (Filtration) of Downstream Bioprocessing SETK 4643. Test your knowledge on cake filtration, filter aids, and the rotary drum filter." />
+  <meta name="keywords" content="filtration quiz, SETK 4643, downstream bioprocessing, Kahoot, UTM, Nur Hidayah Zainan, cake filtration, Darcy's law, rotary drum filter" />
+  <meta name="author" content="Dr. Nur Hidayah Binti Zainan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hidayah.biomechemical.com/quiz-downstream-filtration.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="quiz-styles.css?v=1" />
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="quiz-config.js?v=1"></script>
+</head>
+<body class="quiz-body">
+
+  <div class="quiz-wrap">
+    <div class="quiz-topbar">
+      <a href="students.html" class="back-link">&larr; Back to Course</a>
+      <div class="quiz-logo">FILTRATION <span style="opacity:.7;">QUIZ</span></div>
+    </div>
+
+    <div class="screen" id="startScreen">
+      <div style="text-align:center;">
+        <span class="start-badge">SETK 4643 &middot; Lecture 5: Filtration</span>
+        <span id="backendBadge" class="start-badge" style="margin-left:6px;background:linear-gradient(135deg,#6b7280,#9ca3af);">&#128190; Local &middot; this device only</span>
+      </div>
+      <h1>Filtration Quiz</h1>
+      <p class="sub">Cake vs cross-flow, Darcy&rsquo;s law, filter aids &amp; rotary drums &mdash; play fast, answer smart!</p>
+
+      <div class="start-meta">
+        <div class="meta-pill"><div class="n" id="qCount">12</div><div class="l">Questions</div></div>
+        <div class="meta-pill"><div class="n">20s</div><div class="l">Per Question</div></div>
+        <div class="meta-pill"><div class="n">1000</div><div class="l">Max Points</div></div>
+      </div>
+
+      <label for="playerName" style="display:block;text-align:center;color:#46178f;font-weight:700;margin-bottom:10px;font-size:15px;">Enter your nickname to begin</label>
+      <input type="text" id="playerName" class="name-input" placeholder="Your nickname" maxlength="20" autocomplete="off" />
+      <button id="startBtn" class="start-btn" disabled>START QUIZ &rarr;</button>
+      <button id="viewLbBtn" type="button" style="display:block;width:100%;margin-top:10px;padding:14px;font-size:15px;font-weight:700;background:#ede9fe;color:#46178f;border:none;border-radius:14px;cursor:pointer;font-family:inherit;">&#127942; View Leaderboard</button>
+
+      <div class="how-to">
+        <h3>&#127919; How scoring works (just like Kahoot!)</h3>
+        <ul>
+          <li><strong>Correct answer</strong> = up to <strong>1000 points</strong> per question</li>
+          <li><strong>The faster you answer, the more points you earn</strong></li>
+          <li>Wrong answer or timeout = 0 points</li>
+          <li>Top scores appear on the shared class leaderboard</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="screen hidden" id="playScreen">
+      <div class="play-header">
+        <div class="q-counter" id="qCounter">Question 1 / 12</div>
+        <div class="timer-ring" aria-label="Time left">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle class="bg" cx="40" cy="40" r="36"></circle>
+            <circle class="fg" id="timerFg" cx="40" cy="40" r="36"></circle>
+          </svg>
+          <div class="t" id="timerT">20</div>
+        </div>
+        <div class="q-score" id="qScore">&#11088; 0 pts</div>
+      </div>
+
+      <div class="question-box">
+        <div class="q-chapter" id="qChapter">Topic</div>
+        <p class="q-text" id="qText">Question text...</p>
+      </div>
+
+      <div class="answer-grid" id="answerGrid"></div>
+    </div>
+
+    <div class="screen hidden" id="lbScreen">
+      <div style="text-align:center;"><div style="font-size:70px;line-height:1;margin-bottom:6px;">&#127942;</div></div>
+      <h1>Leaderboard</h1>
+      <p class="sub" id="lbSub">Top 10 scores saved on this device</p>
+      <div class="leaderboard" style="margin-bottom:20px;">
+        <div id="lbScreenList"></div>
+      </div>
+      <div class="end-buttons">
+        <button class="btn-primary" id="lbBackBtn">&larr; Back</button>
+        <button class="btn-danger" id="lbResetBtn">Reset Leaderboard</button>
+      </div>
+      <p id="lbNote" style="text-align:center;color:#6b6f73;font-size:12px;margin-top:18px;line-height:1.5;"></p>
+    </div>
+
+    <div class="feedback-screen hidden" id="feedbackScreen">
+      <div class="emoji" id="fbEmoji">&#127881;</div>
+      <h2 id="fbTitle" class="right">Correct!</h2>
+      <div class="points-earned" id="fbPoints">+900 points</div>
+      <div class="explain" id="fbExplain"></div>
+      <div class="total-score">Total: <strong id="fbTotal">0</strong> points</div>
+    </div>
+
+    <div class="screen hidden" id="endScreen">
+      <div class="final-trophy"><div class="emoji" id="finalEmoji">&#127942;</div></div>
+      <h1 id="finalTitle">Quiz Complete!</h1>
+      <p class="sub" id="finalSub">Well done, <span id="finalName">player</span>!</p>
+
+      <div class="final-score">
+        <div class="big" id="finalScore">0</div>
+        <div class="label">Total Points</div>
+      </div>
+
+      <div class="final-stats">
+        <div class="stat-tile"><div class="v" id="statCorrect">0 / 12</div><div class="k">Correct</div></div>
+        <div class="stat-tile"><div class="v" id="statAccuracy">0%</div><div class="k">Accuracy</div></div>
+        <div class="stat-tile"><div class="v" id="statAvg">0.0s</div><div class="k">Avg Time</div></div>
+      </div>
+
+      <div class="leaderboard">
+        <h3>&#127942; Top 10 Leaderboard</h3>
+        <div id="leaderboardList"></div>
+      </div>
+
+      <div class="end-buttons">
+        <button class="btn-primary" onclick="window.location.reload()">Play Again</button>
+        <a class="btn-secondary" href="students.html">Back to Course</a>
+        <button class="btn-danger" id="resetLbBtn">Reset Leaderboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+  window.QUIZ_CONFIG = {
+    title: "Filtration Quiz",
+    subtitleBadge: "SETK 4643 &middot; Lecture 5",
+    logoText: "FILTRATION QUIZ",
+    reviewText: "Review Lecture 5 (Filtration)",
+    lbCollection: "filtrationQuizLB",
+    lbLocalKey: "filtrationQuizLB",
+    totalQuestions: 12,
+    timePerQ: 20,
+    questions: [
+      {
+        chapter: "Definitions",
+        q: "In filtration, the clarified liquid that passes through the filter is called:",
+        options: ["The cake", "The residue", "The filtrate (effluent)", "The slurry"],
+        correct: 2,
+        explain: "The <strong>filtrate</strong> (also called <em>effluent</em>) is the clarified liquid that passes through. The retained solid is the <strong>cake</strong> or <em>residue</em>."
+      },
+      {
+        chapter: "Types of Filtration",
+        q: "A filtration process in which the solid content in the feed does NOT exceed 1 wt%, and the filtrate is the primary product, is called:",
+        options: ["Cake filtration", "Clarification", "Cross-flow filtration", "Depth filtration"],
+        correct: 1,
+        explain: "<strong>Clarification</strong> is used when solids are &le;1 wt% and the filtrate is the product (e.g. sterilization of liquids)."
+      },
+      {
+        chapter: "Types of Filtration",
+        q: "Which statement best describes cross-flow filtration?",
+        options: [
+          "Liquid flows perpendicular to the medium and a thick cake is deliberately formed",
+          "Liquid flows parallel to the filtration medium at high velocity to minimise cake build-up",
+          "Feed is pressurised with compressed air only",
+          "It is used only for recovering dry solids"
+        ],
+        correct: 1,
+        explain: "In <strong>cross-flow filtration</strong>, feed flows <strong>parallel</strong> to the filter medium at high velocity (typically 10&ndash;20&times; the filtration rate) to limit cake growth."
+      },
+      {
+        chapter: "Mechanisms",
+        q: "In depth filtration, which mechanism is MOST important for gas-borne particles smaller than 0.3 &mu;m?",
+        options: [
+          "Direct interception",
+          "Inertial impaction",
+          "Diffusional interception",
+          "Gravity settling"
+        ],
+        correct: 2,
+        explain: "For particles &lt;0.3 &mu;m in gas, Brownian motion (random bombardment by gas molecules) deflects them into the filter medium &mdash; <strong>diffusional interception</strong>."
+      },
+      {
+        chapter: "Mechanisms",
+        q: "Which mechanism relies on particle momentum causing them to deviate from curved streamlines and hit the filter medium?",
+        options: [
+          "Direct interception",
+          "Inertial impaction",
+          "Diffusional interception",
+          "Electrostatic attraction"
+        ],
+        correct: 1,
+        explain: "In <strong>inertial impaction</strong>, tortuous pores force streamlines to curve, but particles continue straight by inertia, lose momentum, and are retained."
+      },
+      {
+        chapter: "Mechanisms",
+        q: "Surface filtration differs from depth filtration mainly because:",
+        options: [
+          "Pore size is not defined",
+          "Particles can enter the medium and be trapped inside",
+          "Pore size is precisely defined and particles are retained on the external surface",
+          "It is always cheaper than depth filtration"
+        ],
+        correct: 2,
+        explain: "<strong>Surface filtration</strong> has a precisely defined pore size; particles are retained on the outer surface. Depth filtration traps particles within a thicker, less-defined medium."
+      },
+      {
+        chapter: "Filter Medium",
+        q: "Which is NOT a typical requirement of a good filter medium?",
+        options: [
+          "Sufficient mechanical strength",
+          "Resistance to corrosive feeds",
+          "Low resistance to filtrate flow",
+          "Maximum adsorption of the filtrate"
+        ],
+        correct: 3,
+        explain: "The medium should let filtrate through freely. It must be mechanically strong, corrosion-resistant, and offer <strong>low</strong> flow resistance."
+      },
+      {
+        chapter: "Driving Force",
+        q: "Vacuum filtration is generally preferred in the laboratory for safety, BUT it is unsuitable for:",
+        options: [
+          "Aqueous suspensions",
+          "Substances that form foam",
+          "Crystalline solids",
+          "Warm feeds"
+        ],
+        correct: 1,
+        explain: "<strong>Foaming substances cannot be filtered under vacuum</strong> &mdash; the reduced pressure worsens the foam. Pressure filtration is used instead."
+      },
+      {
+        chapter: "Darcy's Law",
+        q: "Darcy's law for filtration states that volumetric flow rate Q is proportional to:",
+        options: [
+          "&Delta;P only",
+          "k&middot;A&middot;&Delta;P / (&mu;&middot;l)",
+          "&mu;&middot;l / (&Delta;P&middot;A)",
+          "A&sup2;&middot;&Delta;P"
+        ],
+        correct: 1,
+        explain: "Darcy&rsquo;s law: <strong>Q = k&middot;A&middot;&Delta;P / (&mu;&middot;l)</strong> &mdash; flow rate rises with permeability, area, and pressure drop; falls with viscosity and medium thickness."
+      },
+      {
+        chapter: "Efficiency",
+        q: "Why does the filtration rate typically DECLINE during constant-pressure cake filtration?",
+        options: [
+          "The cake resistance increases as the cake thickens",
+          "The feed viscosity decreases",
+          "The pressure drop decreases",
+          "The filter area expands"
+        ],
+        correct: 0,
+        explain: "As the cake accumulates, <strong>cake resistance rises</strong>, reducing Q at a given &Delta;P. This is the core challenge of cake filtration."
+      },
+      {
+        chapter: "Filter Aids",
+        q: "Common filter aids used to improve filtration rate include:",
+        options: [
+          "Activated carbon and sand",
+          "Diatomaceous earth and perlite",
+          "Silica gel beads only",
+          "Cellulose fibres only"
+        ],
+        correct: 1,
+        explain: "Filter aids are typically <strong>diatomaceous earth</strong> (fossilised algae) and <strong>perlite</strong> (volcanic glass). They create porous cakes with low specific resistance."
+      },
+      {
+        chapter: "Filter Aids",
+        q: "Filter aids are RARELY used when:",
+        options: [
+          "The filtrate is the product",
+          "The slurry is dilute",
+          "The cake itself is the product of interest",
+          "The feed is corrosive"
+        ],
+        correct: 2,
+        explain: "If the <strong>cake is the product</strong>, adding filter aid contaminates it. Filter aids are mainly used when the filtrate is the product."
+      },
+      {
+        chapter: "Feed Pretreatment",
+        q: "A drawback of heating the feed before filtration is that:",
+        options: [
+          "Heating always increases viscosity",
+          "Thermolabile substances cannot be heated",
+          "Heating removes the solids",
+          "It causes cake fracture"
+        ],
+        correct: 1,
+        explain: "Heating lowers viscosity and improves filtration &mdash; but <strong>thermolabile (heat-sensitive) substances</strong> (many biomolecules) cannot tolerate heating."
+      },
+      {
+        chapter: "Mode of Operation",
+        q: "For large-scale cake filtration where simultaneous cake formation and removal are needed, the best choice is:",
+        options: [
+          "Funnel filter",
+          "Filter press (batch)",
+          "Rotary drum filter (continuous)",
+          "Leaf pressure filter (batch)"
+        ],
+        correct: 2,
+        explain: "A <strong>rotary drum filter</strong> rotates continuously through filtration, washing, dewatering, and discharge zones &mdash; ideal for large-scale continuous operation."
+      },
+      {
+        chapter: "Rotary Drum Filter",
+        q: "What is the correct order of zones in a rotary drum filter?",
+        options: [
+          "Discharge &rarr; Washing &rarr; Filtration &rarr; Dewatering",
+          "Filtration &rarr; Washing &rarr; Dewatering &rarr; Cake Discharge",
+          "Washing &rarr; Filtration &rarr; Discharge &rarr; Dewatering",
+          "Dewatering &rarr; Washing &rarr; Filtration &rarr; Discharge"
+        ],
+        correct: 1,
+        explain: "A rotary drum cycles through: <strong>Filtration &rarr; Washing &rarr; Dewatering &rarr; Cake Discharge</strong>, then repeats."
+      },
+      {
+        chapter: "Slurry Thickening",
+        q: "The goal of slurry thickening by delayed cake filtration is to:",
+        options: [
+          "Build a very thick cake for easy removal",
+          "Produce a completely dry cake",
+          "Increase the solid concentration in the slurry while preventing thick cake build-up",
+          "Sterilize the slurry"
+        ],
+        correct: 2,
+        explain: "<strong>Slurry thickening</strong> increases solids concentration in the feed while <strong>avoiding</strong> thick cake formation &mdash; often via moving blades that continuously scrape the medium."
+      },
+      {
+        chapter: "Cake Washing",
+        q: "Why is cake washing important?",
+        options: [
+          "It cools the filter",
+          "It removes entrapped liquid (lost yield if liquid is the product, or impurity if cake is the product)",
+          "It dissolves the cake for easy disposal",
+          "It sterilises the equipment"
+        ],
+        correct: 1,
+        explain: "Entrapped mother liquor = lost product (when filtrate is the product) or contamination (when cake is the product). <strong>Cake washing</strong> addresses both issues."
+      },
+      {
+        chapter: "Applications",
+        q: "Which of the following is NOT a typical filtration application in bioprocessing?",
+        options: [
+          "Recovery of cells from fermentation broth",
+          "Clarification of liquids and gases",
+          "Sterilization of liquids",
+          "Heating of fermentation medium"
+        ],
+        correct: 3,
+        explain: "Filtration is used for cell recovery, clarification, sterilization, and recovery of crystalline solids &mdash; <strong>not for heating</strong>."
+      },
+      {
+        chapter: "Direct Interception",
+        q: "In direct interception, a particle is trapped when:",
+        options: [
+          "Its charge matches that of the filter",
+          "Its diameter equals or exceeds the pore diameter",
+          "Its density is less than the fluid",
+          "It dissolves in the filtrate"
+        ],
+        correct: 1,
+        explain: "In <strong>direct interception</strong>, a particle gets stuck in the pore network when its diameter matches (or exceeds) the local pore diameter."
+      }
+    ]
+  };
+  </script>
+  <script src="quiz-engine.js?v=1"></script>
+</body>
+</html>

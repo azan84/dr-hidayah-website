@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settling &amp; Sedimentation Quiz (SETK 4643) | Dr. Nur Hidayah Zainan</title>
+  <meta name="description" content="Kahoot-style quiz on Lecture 6 (Settling & Sedimentation) of Downstream Bioprocessing SETK 4643. Test your knowledge on terminal settling velocity, Stokes' law, and free vs hindered settling." />
+  <meta name="keywords" content="sedimentation quiz, settling quiz, Stokes law, terminal velocity, SETK 4643, downstream bioprocessing, Kahoot, UTM, Nur Hidayah Zainan" />
+  <meta name="author" content="Dr. Nur Hidayah Binti Zainan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hidayah.biomechemical.com/quiz-downstream-sedimentation.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="quiz-styles.css?v=1" />
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="quiz-config.js?v=1"></script>
+</head>
+<body class="quiz-body">
+
+  <div class="quiz-wrap">
+    <div class="quiz-topbar">
+      <a href="students.html" class="back-link">&larr; Back to Course</a>
+      <div class="quiz-logo">SEDIMENTATION <span style="opacity:.7;">QUIZ</span></div>
+    </div>
+
+    <div class="screen" id="startScreen">
+      <div style="text-align:center;">
+        <span class="start-badge">SETK 4643 &middot; Lecture 6: Settling &amp; Sedimentation</span>
+        <span id="backendBadge" class="start-badge" style="margin-left:6px;background:linear-gradient(135deg,#6b7280,#9ca3af);">&#128190; Local &middot; this device only</span>
+      </div>
+      <h1>Settling &amp; Sedimentation Quiz</h1>
+      <p class="sub">Stokes&rsquo; law, terminal velocity, free vs hindered settling &mdash; let the fastest player win!</p>
+
+      <div class="start-meta">
+        <div class="meta-pill"><div class="n" id="qCount">12</div><div class="l">Questions</div></div>
+        <div class="meta-pill"><div class="n">20s</div><div class="l">Per Question</div></div>
+        <div class="meta-pill"><div class="n">1000</div><div class="l">Max Points</div></div>
+      </div>
+
+      <label for="playerName" style="display:block;text-align:center;color:#46178f;font-weight:700;margin-bottom:10px;font-size:15px;">Enter your nickname to begin</label>
+      <input type="text" id="playerName" class="name-input" placeholder="Your nickname" maxlength="20" autocomplete="off" />
+      <button id="startBtn" class="start-btn" disabled>START QUIZ &rarr;</button>
+      <button id="viewLbBtn" type="button" style="display:block;width:100%;margin-top:10px;padding:14px;font-size:15px;font-weight:700;background:#ede9fe;color:#46178f;border:none;border-radius:14px;cursor:pointer;font-family:inherit;">&#127942; View Leaderboard</button>
+
+      <div class="how-to">
+        <h3>&#127919; How scoring works (just like Kahoot!)</h3>
+        <ul>
+          <li><strong>Correct answer</strong> = up to <strong>1000 points</strong> per question</li>
+          <li><strong>The faster you answer, the more points you earn</strong></li>
+          <li>Wrong answer or timeout = 0 points</li>
+          <li>Top scores appear on the shared class leaderboard</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="screen hidden" id="playScreen">
+      <div class="play-header">
+        <div class="q-counter" id="qCounter">Question 1 / 12</div>
+        <div class="timer-ring" aria-label="Time left">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle class="bg" cx="40" cy="40" r="36"></circle>
+            <circle class="fg" id="timerFg" cx="40" cy="40" r="36"></circle>
+          </svg>
+          <div class="t" id="timerT">20</div>
+        </div>
+        <div class="q-score" id="qScore">&#11088; 0 pts</div>
+      </div>
+
+      <div class="question-box">
+        <div class="q-chapter" id="qChapter">Topic</div>
+        <p class="q-text" id="qText">Question text...</p>
+      </div>
+
+      <div class="answer-grid" id="answerGrid"></div>
+    </div>
+
+    <div class="screen hidden" id="lbScreen">
+      <div style="text-align:center;"><div style="font-size:70px;line-height:1;margin-bottom:6px;">&#127942;</div></div>
+      <h1>Leaderboard</h1>
+      <p class="sub" id="lbSub">Top 10 scores saved on this device</p>
+      <div class="leaderboard" style="margin-bottom:20px;">
+        <div id="lbScreenList"></div>
+      </div>
+      <div class="end-buttons">
+        <button class="btn-primary" id="lbBackBtn">&larr; Back</button>
+        <button class="btn-danger" id="lbResetBtn">Reset Leaderboard</button>
+      </div>
+      <p id="lbNote" style="text-align:center;color:#6b6f73;font-size:12px;margin-top:18px;line-height:1.5;"></p>
+    </div>
+
+    <div class="feedback-screen hidden" id="feedbackScreen">
+      <div class="emoji" id="fbEmoji">&#127881;</div>
+      <h2 id="fbTitle" class="right">Correct!</h2>
+      <div class="points-earned" id="fbPoints">+900 points</div>
+      <div class="explain" id="fbExplain"></div>
+      <div class="total-score">Total: <strong id="fbTotal">0</strong> points</div>
+    </div>
+
+    <div class="screen hidden" id="endScreen">
+      <div class="final-trophy"><div class="emoji" id="finalEmoji">&#127942;</div></div>
+      <h1 id="finalTitle">Quiz Complete!</h1>
+      <p class="sub" id="finalSub">Well done, <span id="finalName">player</span>!</p>
+
+      <div class="final-score">
+        <div class="big" id="finalScore">0</div>
+        <div class="label">Total Points</div>
+      </div>
+
+      <div class="final-stats">
+        <div class="stat-tile"><div class="v" id="statCorrect">0 / 12</div><div class="k">Correct</div></div>
+        <div class="stat-tile"><div class="v" id="statAccuracy">0%</div><div class="k">Accuracy</div></div>
+        <div class="stat-tile"><div class="v" id="statAvg">0.0s</div><div class="k">Avg Time</div></div>
+      </div>
+
+      <div class="leaderboard">
+        <h3>&#127942; Top 10 Leaderboard</h3>
+        <div id="leaderboardList"></div>
+      </div>
+
+      <div class="end-buttons">
+        <button class="btn-primary" onclick="window.location.reload()">Play Again</button>
+        <a class="btn-secondary" href="students.html">Back to Course</a>
+        <button class="btn-danger" id="resetLbBtn">Reset Leaderboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+  window.QUIZ_CONFIG = {
+    title: "Settling & Sedimentation Quiz",
+    subtitleBadge: "SETK 4643 &middot; Lecture 6",
+    logoText: "SEDIMENTATION QUIZ",
+    reviewText: "Review Lecture 6 (Settling & Sedimentation)",
+    lbCollection: "sedimentationQuizLB",
+    lbLocalKey: "sedimentationQuizLB",
+    totalQuestions: 12,
+    timePerQ: 20,
+    questions: [
+      {
+        chapter: "Filtration vs Sedimentation",
+        q: "The key difference between filtration and sedimentation is:",
+        options: [
+          "Filtration uses force on particles; sedimentation uses a filter medium",
+          "Filtration requires a filter medium and acts on the fluid; sedimentation uses force on particles and needs no medium",
+          "Both use a filter medium",
+          "Sedimentation is faster than filtration for all suspensions"
+        ],
+        correct: 1,
+        explain: "<strong>Filtration</strong> applies force on the fluid and needs a filter medium. <strong>Sedimentation</strong> applies force (gravity, centrifugal, etc.) on the particles and needs <em>no</em> filter medium."
+      },
+      {
+        chapter: "Definitions",
+        q: "Sedimentation is best defined as:",
+        options: [
+          "The dissolving of solids in a solvent",
+          "The separation of a dilute slurry by gravity settling into a clear fluid and a denser slurry",
+          "The evaporation of solvent to leave solids",
+          "The mechanical pressing of solids through a sieve"
+        ],
+        correct: 1,
+        explain: "Sedimentation = separation of a dilute slurry by <strong>gravity settling</strong> into a clear fluid on top and a concentrated slurry at the bottom."
+      },
+      {
+        chapter: "Forces",
+        q: "Which THREE forces act on a particle settling in a fluid under gravity?",
+        options: [
+          "Gravity, drag, magnetic",
+          "Gravity, buoyancy, drag",
+          "Gravity, buoyancy, magnetic",
+          "Surface tension, drag, electrostatic"
+        ],
+        correct: 1,
+        explain: "The three forces are <strong>gravity</strong> (pulling down), <strong>buoyancy</strong> (pushing up), and <strong>drag</strong> (resisting motion)."
+      },
+      {
+        chapter: "Driving Condition",
+        q: "A particle will NOT move relative to the fluid under gravity settling if:",
+        options: [
+          "The particle is larger than 1 mm",
+          "The particle density equals the fluid density (buoyancy balances gravity)",
+          "The fluid is at rest",
+          "The drag coefficient is zero"
+        ],
+        correct: 1,
+        explain: "If &rho;<sub>particle</sub> = &rho;<sub>fluid</sub>, the buoyant force exactly cancels gravity and the particle doesn&rsquo;t move. A <strong>density difference</strong> is required."
+      },
+      {
+        chapter: "Terminal Velocity",
+        q: "Terminal settling velocity is reached when:",
+        options: [
+          "Drag force is zero",
+          "Gravity force is zero",
+          "The net (resultant) force on the particle becomes zero and it falls at constant velocity",
+          "Buoyancy exceeds gravity"
+        ],
+        correct: 2,
+        explain: "At <strong>terminal velocity</strong>, drag + buoyancy = gravity, so net force = 0 and the particle falls at constant speed."
+      },
+      {
+        chapter: "Stokes' Law",
+        q: "Stokes' law for settling is applicable when the particle Reynolds number is:",
+        options: [
+          "Re &gt; 1000",
+          "Re &lt; 0.2",
+          "Re between 10 and 100",
+          "Any Reynolds number"
+        ],
+        correct: 1,
+        explain: "Stokes&rsquo; law applies at <strong>Re &lt; 0.2</strong> (very low Reynolds) where inertial forces are negligible and only viscous forces matter."
+      },
+      {
+        chapter: "Stokes' Law",
+        q: "According to Stokes' law, terminal velocity of a small sphere depends on the particle diameter d as:",
+        options: [
+          "Proportional to d",
+          "Proportional to d&sup2;",
+          "Proportional to 1/d",
+          "Independent of d"
+        ],
+        correct: 1,
+        explain: "Stokes&rsquo; law: v<sub>t</sub> = d&sup2;(&rho;<sub>p</sub>&minus;&rho;<sub>f</sub>)g / (18&mu;). Velocity scales with <strong>d&sup2;</strong>."
+      },
+      {
+        chapter: "Particle Properties",
+        q: "Terminal settling velocity depends on which particle properties?",
+        options: [
+          "Size, density and shape of the particle",
+          "Colour and odour of the particle",
+          "Only the size of the particle",
+          "Only the density of the fluid"
+        ],
+        correct: 0,
+        explain: "Terminal velocity depends on particle <strong>size (d)</strong>, <strong>density</strong>, and <strong>shape</strong> &mdash; plus fluid viscosity and density."
+      },
+      {
+        chapter: "Drag",
+        q: "The drag coefficient is used to describe:",
+        options: [
+          "Heat transfer between phases",
+          "The resistance of the fluid to particle motion",
+          "Mass diffusion in liquids",
+          "Surface tension at interfaces"
+        ],
+        correct: 1,
+        explain: "The <strong>drag coefficient</strong> C<sub>D</sub> characterises the fluid&rsquo;s resistance to an object moving through it &mdash; directly related to the drag force."
+      },
+      {
+        chapter: "Free vs Hindered",
+        q: "Free settling refers to:",
+        options: [
+          "Settling in a highly concentrated slurry where particles interfere with each other",
+          "Settling of a single particle (or very dilute suspension) unaffected by others",
+          "Settling only under centrifugal force",
+          "Settling with a filter medium"
+        ],
+        correct: 1,
+        explain: "In <strong>free settling</strong>, particles are far apart (dilute suspension) and settle independently. In <strong>hindered settling</strong>, high concentration makes particles interfere with each other."
+      },
+      {
+        chapter: "Free vs Hindered",
+        q: "In HINDERED settling, compared with free settling, the terminal velocity is:",
+        options: [
+          "Much higher",
+          "Lower, because particles interfere with each other",
+          "Exactly the same",
+          "Zero"
+        ],
+        correct: 1,
+        explain: "Particles in a concentrated suspension <strong>interfere</strong> with each other&rsquo;s flow paths, reducing settling velocity below the free-settling value."
+      },
+      {
+        chapter: "Applications",
+        q: "Which of the following is NOT a typical application of sedimentation?",
+        options: [
+          "Removal of solids from sewage wastes",
+          "Water treatment (e.g. lime-soda softening)",
+          "Settling of crystals from mother liquor",
+          "Sterilization of liquids"
+        ],
+        correct: 3,
+        explain: "Sedimentation is used for solids removal, crystal settling, flocculated-particle separation, water/wastewater treatment &mdash; <strong>not sterilization</strong> (that&rsquo;s filtration&rsquo;s job)."
+      },
+      {
+        chapter: "Isopycnic Sedimentation",
+        q: "In an isopycnic sedimentation tank, where do the largest and heaviest particles typically settle?",
+        options: [
+          "Near the outlet (furthest from inlet)",
+          "Near the inlet, because they have the highest settling velocity",
+          "They do not settle at all",
+          "Uniformly across the tank"
+        ],
+        correct: 1,
+        explain: "Largest/heaviest particles have the <strong>highest settling velocity</strong> and drop out <strong>near the inlet</strong>. Smaller particles travel further and may even leave with the overflow."
+      },
+      {
+        chapter: "Isopycnic Sedimentation",
+        q: "If heavy particle A and lighter particle B both have size ranges d1-d4, it is possible that:",
+        options: [
+          "The smaller particle size of the heavy A settles at the same velocity as a larger size of the lighter B",
+          "Only particles of A ever settle",
+          "Size has no effect on settling",
+          "Only the smallest particles settle first"
+        ],
+        correct: 0,
+        explain: "A smaller size of the heavier material can have the <strong>same terminal velocity</strong> as a larger size of the lighter material &mdash; because velocity depends on BOTH size and density."
+      },
+      {
+        chapter: "Density Relation",
+        q: "Given density = mass / volume, the mass of a particle of known density and volume is:",
+        options: [
+          "mass = density / volume",
+          "mass = density &times; volume",
+          "mass = volume / density",
+          "mass = density + volume"
+        ],
+        correct: 1,
+        explain: "From &rho; = m/V, rearranging gives <strong>m = &rho;&middot;V</strong>."
+      },
+      {
+        chapter: "Objective",
+        q: "The main objective of sedimentation in downstream bioprocessing is to:",
+        options: [
+          "Heat the fluid",
+          "Remove particles from the fluid stream so the fluid is free of particulate contaminants",
+          "Dissolve solids in the fluid",
+          "Sterilize the fluid"
+        ],
+        correct: 1,
+        explain: "Sedimentation&rsquo;s purpose is to <strong>remove particles</strong> from a fluid stream, yielding a clarified fluid and a more concentrated slurry."
+      },
+      {
+        chapter: "Units",
+        q: "50 L is equivalent to how many cm&sup3;?",
+        options: [
+          "500 cm&sup3;",
+          "5,000 cm&sup3;",
+          "50,000 cm&sup3;",
+          "500,000 cm&sup3;"
+        ],
+        correct: 2,
+        explain: "1 L = 1,000 cm&sup3;, so 50 L = <strong>50,000 cm&sup3;</strong> (or 0.05 m&sup3;)."
+      },
+      {
+        chapter: "Fluid Properties",
+        q: "Which fluid property most directly OPPOSES particle settling?",
+        options: [
+          "Density of the fluid (via buoyancy) and viscosity (via drag)",
+          "Temperature only",
+          "Colour of the fluid",
+          "Surface tension only"
+        ],
+        correct: 0,
+        explain: "Higher fluid <strong>density</strong> increases buoyancy, and higher <strong>viscosity</strong> increases drag &mdash; both oppose settling."
+      }
+    ]
+  };
+  </script>
+  <script src="quiz-engine.js?v=1"></script>
+</body>
+</html>
