@@ -1,0 +1,28 @@
+# Sibling projects with their own repos (this OneDrive folder hosts several)
+Azan/
+Azan-site/
+Durible/
+MCUT 3+2/
+
+# Lecture-slide source material (not shipped)
+Hidayah Website/
+
+# Mirror of deployed output — rebuilt from source
+_deploy/
+
+# Unrelated one-off landing pages not part of this site
+3d-print-landing.html
+fund-tracker.html
+home-page.html
+photo_casual_*.jpg
+
+# Tooling
+.claude/
+.vscode/
+.idea/
+node_modules/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+*.swp
