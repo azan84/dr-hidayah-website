@@ -549,7 +549,7 @@ section { padding: 5rem 1.5rem; }
 .hero-photo-wrapper {
   position: relative;
   display: flex; justify-content: center; align-items: center;
-  width: min(100%, 380px);
+  width: min(100%, 285px);
   aspect-ratio: 1;
   margin: 0 auto;
 }
